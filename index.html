@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puglia Phrase Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f7f7;
+    --warm-white: #ffffff;
+    --terracotta: #222222;
+    --terracotta-light: #444444;
+    --terracotta-pale: #eeeeee;
+    --olive: #555555;
+    --olive-light: #777777;
+    --midnight: #111111;
+    --ink: #222222;
+    --stone: #888888;
+    --sand: #dddddd;
+    --azure: #444444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--midnight);
+    color: var(--cream);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(196,97,58,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(46,107,158,0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terracotta-light);
+    margin-bottom: 0.75rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  header h1 {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.25s;
+  }
+
+  header h1 em {
+    font-style: normal;
+    color: var(--terracotta-light);
+  }
+
+  .header-sub {
+    font-size: 1rem;
+    color: var(--sand);
+    margin-top: 0.75rem;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  .header-rule {
+    width: 60px;
+    height: 1px;
+    background: var(--terracotta);
+    margin: 1.5rem auto 0;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.55s;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--sand);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  .nav-inner {
+    display: flex;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    white-space: nowrap;
+  }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 0.9rem 1.1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--stone);
+    cursor: pointer;
+    transition: color 0.2s, border-bottom 0.2s;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+
+  .nav-btn:hover { color: var(--terracotta); }
+  .nav-btn.active {
+    color: var(--terracotta);
+    border-bottom-color: var(--terracotta);
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* SECTION */
+  .section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .section.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  .section-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--stone);
+  }
+
+  .section-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--stone);
+    letter-spacing: 0.1em;
+    margin-left: auto;
+  }
+
+  /* SEARCH */
+  .search-bar {
+    position: relative;
+    margin-bottom: 1.75rem;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid var(--sand);
+    border-radius: 4px;
+    background: var(--warm-white);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-bar input:focus { border-color: var(--terracotta); }
+  .search-bar input::placeholder { color: var(--stone); }
+
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--stone);
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+
+  /* PHRASE GRID */
+  .phrase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  /* PHRASE CARD */
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-radius: 6px;
+    padding: 1.25rem 1.25rem 1rem;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--terracotta);
+    transform: scaleY(0);
+    transition: transform 0.2s;
+    transform-origin: bottom;
+  }
+
+  .card:hover {
+    border-color: var(--terracotta-pale);
+    box-shadow: 0 4px 16px rgba(196,97,58,0.1);
+    transform: translateY(-1px);
+  }
+
+  .card:hover::before { transform: scaleY(1); }
+
+  .card.flipped { background: var(--midnight); border-color: var(--midnight); }
+  .card.flipped::before { background: var(--terracotta-light); transform: scaleY(1); }
+
+  .card-italian {
+    font-size: 1.25rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracotta);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+  }
+
+  .card.flipped .card-italian { color: var(--terracotta-light); }
+
+  .card-english {
+    font-size: 0.95rem;
+    color: var(--stone);
+    font-weight: 300;
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+
+  .card.flipped .card-english {
+    color: var(--cream);
+    font-size: 1rem;
+  }
+
+  .card-note {
+    margin-top: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--olive-light);
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+  }
+
+  .card.flipped .card-note { color: var(--olive-light); }
+
+  .card-pron {
+    margin-top: 0.35rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--sand);
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  .card.flipped .card-pron { color: var(--stone); }
+
+  .card-pron-loading {
+    margin-top: 0.35rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--stone);
+    font-style: italic;
+  }
+
+
+    position: absolute;
+    top: 0.6rem;
+    right: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--sand);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .card.flipped .card-flip-hint { color: var(--stone); }
+
+  /* TAG CHIPS */
+  .tag-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--sand);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--stone);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .tag-chip:hover { border-color: var(--terracotta); color: var(--terracotta); }
+  .tag-chip.active { background: var(--terracotta); border-color: var(--terracotta); color: white; }
+
+  /* FOOTER TIP */
+  .study-tip {
+    margin-top: 2.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--terracotta-pale);
+    border-left: 3px solid var(--terracotta);
+    border-radius: 0 4px 4px 0;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+
+  .study-tip strong {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--stone);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  /* QUIZ */
+  .quiz-intro {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  .quiz-intro p {
+    font-size: 1.1rem;
+    color: var(--stone);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+  .quiz-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--warm-white);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .quiz-btn:hover { background: var(--stone); border-color: var(--stone); }
+  .quiz-btn.secondary {
+    background: transparent;
+    color: var(--ink);
+    margin-left: 0.75rem;
+  }
+  .quiz-btn.secondary:hover { background: var(--terracotta-pale); border-color: var(--stone); }
+
+  .quiz-question {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .quiz-q-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 0.6rem;
+  }
+  .quiz-italian {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .quiz-input {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--sand);
+    border-radius: 4px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1rem;
+    -webkit-text-size-adjust: 100%;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .quiz-input:focus { border-color: var(--ink); }
+  .quiz-input.correct { border-color: #4a7c59; background: #f0f7f2; }
+  .quiz-input.incorrect { border-color: #a0392a; background: #fdf2f0; }
+  .quiz-input:disabled { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    display: none;
+  }
+  .quiz-feedback.correct { color: #4a7c59; display: block; }
+  .quiz-feedback.incorrect { color: #a0392a; display: block; }
+  .quiz-feedback .correct-answer { font-style: italic; }
+
+  .skip-btn {
+    margin-top: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--sand);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--stone);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .skip-btn:hover { border-color: var(--stone); color: var(--ink); }
+  .skip-btn:disabled { opacity: 0.3; cursor: default; }
+
+  .quiz-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .quiz-score-banner {
+    text-align: center;
+    padding: 2.5rem 1rem 1.5rem;
+  }
+  .quiz-score-number {
+    font-size: clamp(3rem, 10vw, 5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .quiz-score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-top: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .quiz-score-msg {
+    font-size: 1.1rem;
+    color: var(--stone);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+  .quiz-tally {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--stone);
+    margin-bottom: 2rem;
+  }
+
+
+  @media (max-width: 600px) {
+    /* Header */
+    header { padding: 1.5rem 1rem 1.25rem; }
+    header h1 { font-size: 2.2rem; }
+    .header-sub { font-size: 0.85rem; }
+    .header-rule { margin-top: 1rem; }
+
+    /* Nav — larger tap targets */
+    .nav-btn {
+      font-size: 0.58rem;
+      padding: 0.85rem 0.7rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* Main padding */
+    main { padding: 1.5rem 1rem 3rem; }
+
+    /* Section header */
+    .section-title { font-size: 1.5rem; }
+    .section-count { font-size: 0.6rem; }
+
+    /* Cards — full width, slightly larger text */
+    .phrase-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+    .card { padding: 1rem 1rem 0.85rem; }
+    .card-italian { font-size: 1.2rem; }
+    .card-english { font-size: 1rem; }
+    .card-pron { font-size: 0.68rem; }
+    .card-note { font-size: 0.65rem; }
+
+    /* Search */
+    .search-bar input { font-size: 1rem; } /* prevent iOS zoom */
+
+    /* Quiz */
+    .quiz-input { font-size: 1rem; } /* prevent iOS zoom — must be ≥16px equivalent */
+    .quiz-italian { font-size: 1.2rem; }
+    .quiz-q-meta { font-size: 0.62rem; }
+    .quiz-score-number { font-size: 3.5rem; }
+    .quiz-btn { font-size: 0.65rem; padding: 0.85rem 1.5rem; }
+    .quiz-btn.secondary { margin-left: 0; margin-top: 0.5rem; }
+    .quiz-actions { flex-direction: column; align-items: center; }
+    .skip-btn { font-size: 0.62rem; padding: 0.4rem 1rem; }
+
+    /* Study tip */
+    .study-tip { font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-label">Puglia · August 2026</p>
+  <h1>il mio <em>frasario</em></h1>
+  <p class="header-sub">A personal phrase bank for your Italian adventure</p>
+  <div class="header-rule"></div>
+</header>
+
+<nav>
+  <div class="nav-inner" id="navInner"></div>
+</nav>
+
+<main id="main"></main>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+
+const sections = [
+  {
+    id: "essentials",
+    icon: "🤝",
+    title: "Everyday Essentials",
+    tip: "These are your foundation. Nail the pronunciation of 'prego' — it means please, you're welcome, and go ahead all at once.",
+    phrases: [
+      { it: "Buongiorno", en: "Good morning / Good day", note: "Use until ~1pm" },
+      { it: "Buonasera", en: "Good evening", note: "Use from ~5pm onwards" },
+      { it: "Buonanotte", en: "Good night", note: "Only when parting for the night" },
+      { it: "Ciao", en: "Hi / Bye", note: "Informal — fine with peers, less so with strangers" },
+      { it: "Arrivederci", en: "Goodbye", note: "Polite farewell" },
+      { it: "Per favore / Per piacere", en: "Please", note: "'Per piacere' is slightly softer" },
+      { it: "Grazie / Grazie mille", en: "Thank you / Thank you very much", note: "" },
+      { it: "Prego", en: "You're welcome / Please / Go ahead", note: "The most versatile word in Italian" },
+      { it: "Mi scusi", en: "Excuse me (formal)", note: "Use to get attention or apologise" },
+      { it: "Scusa", en: "Excuse me (informal)", note: "" },
+      { it: "Sì / No", en: "Yes / No", note: "'Sì' is stressed — say it with conviction" },
+      { it: "Capisco", en: "I understand", note: "" },
+      { it: "Non capisco", en: "I don't understand", note: "" },
+      { it: "Può ripetere, per favore?", en: "Can you repeat that, please?", note: "Formal — very useful" },
+      { it: "Parla inglese?", en: "Do you speak English?", note: "Formal — but try Italian first!" },
+      { it: "Parla più lentamente, per favore", en: "Please speak more slowly", note: "" },
+      { it: "Come si dice… in italiano?", en: "How do you say… in Italian?", note: "Great for engaging locals" },
+      { it: "Non parlo bene l'italiano", en: "I don't speak Italian well", note: "Disarms people — they appreciate the effort" },
+      { it: "Come stai? / Come sta?", en: "How are you? (informal / formal)", note: "" },
+      { it: "Bene, grazie!", en: "Well, thank you!", note: "Standard response" },
+      { it: "Sto imparando l'italiano / Sto studiando l'italiano", en: "I am learning Italian / I am studying Italian", note: "Locals will love you for this — expect encouragement!" },
+      { it: "Piacere di conoscerti", en: "Pleased to meet you", note: "Informal — use with peers. Formal version: 'Piacere di conoscerla'" },
+      { it: "Mi chiamo George", en: "I am George / My name is George", note: "'Mi chiamo' literally means 'I call myself'" },
+      { it: "Siamo inglesi / Veniamo dall'Inghilterra", en: "We are English / We come from England", note: "Either works naturally in conversation" },
+      { it: "Parlo un po' d'italiano", en: "I speak a little Italian", note: "A great opener — sets expectations and earns goodwill" },
+      { it: "Mio figlio si chiama…", en: "My son is called…", note: "MYOH FEEL-yo see KYA-ma" },
+      { it: "Mia figlia si chiama…", en: "My daughter is called…", note: "MEE-a FEEL-ya see KYA-ma" },
+    ]
+  },
+  {
+    id: "foodbank",
+    icon: "📖",
+    title: "The Menu",
+    tip: "Puglia is one of Italy's great food regions. Recognising these on a menu will help you order with confidence — and avoid any surprises!",
+    phrases: [
+      { it: "Orecchiette", en: "Small ear-shaped pasta", note: "The signature pasta of Puglia" },
+      { it: "Cime di rapa", en: "Turnip tops / broccoli rabe", note: "Bitter greens — classic with orecchiette" },
+      { it: "Burrata", en: "Fresh cheese with creamy centre", note: "Originated near Andria, Puglia" },
+      { it: "Mozzarella", en: "Fresh white cheese", note: "Softer and milkier than the packaged kind" },
+      { it: "Stracciatella", en: "Shredded cream and curd cheese", note: "The filling inside burrata" },
+      { it: "Focaccia barese", en: "Thick Bari-style flatbread", note: "Topped with tomatoes, olives, olive oil" },
+      { it: "Taralli", en: "Small savoury ring-shaped snacks", note: "Ubiquitous Puglian snack — like a dry breadstick ring" },
+      { it: "Fave e cicoria", en: "Broad bean puree with chicory", note: "Classic Puglian peasant dish" },
+      { it: "Tiella barese", en: "Baked rice, potato and mussel casserole", note: "Known as riso, patate e cozze" },
+      { it: "Polpo alla luciana", en: "Stewed octopus", note: "Common coastal dish in Puglia" },
+      { it: "Crudo di mare", en: "Raw seafood platter", note: "Very popular on the Adriatic coast" },
+      { it: "Ricci di mare", en: "Sea urchin", note: "A Puglian delicacy — served on bread or pasta" },
+      { it: "Cozze gratinate", en: "Baked stuffed mussels", note: "Grilled with breadcrumbs and parsley" },
+      { it: "Alici / Acciughe", en: "Anchovies", note: "Often served marinated or on bruschetta" },
+      { it: "Sgombro", en: "Mackerel", note: "Common in Puglian coastal menus" },
+      { it: "Branzino", en: "Sea bass", note: "Often grilled whole" },
+      { it: "Orata", en: "Sea bream", note: "Another popular whole fish" },
+      { it: "Agnello", en: "Lamb", note: "A Puglian staple — often slow-roasted" },
+      { it: "Brasato", en: "Braised meat", note: "Slow-cooked and tender" },
+      { it: "Salsiccia", en: "Sausage", note: "Puglian sausages are often fennel-spiced" },
+      { it: "Bombette", en: "Rolled pork parcels stuffed with cheese", note: "A Puglia speciality — cooked on a spit" },
+      { it: "Verdure grigliate", en: "Grilled vegetables", note: "Aubergine, courgette, peppers — very common" },
+      { it: "Melanzane", en: "Aubergine / Eggplant", note: "Used widely across Puglian cooking" },
+      { it: "Pomodori secchi", en: "Sun-dried tomatoes", note: "Puglia produces some of Italy's best" },
+      { it: "Olive ascolane", en: "Stuffed fried olives", note: "Popular antipasto across southern Italy" },
+      { it: "Panzanella", en: "Bread and tomato salad", note: "Rustic summer salad" },
+      { it: "Insalata mista", en: "Mixed salad", note: "" },
+      { it: "Caponata", en: "Sweet and sour aubergine dish", note: "" },
+      { it: "Bruschetta", en: "Toasted bread with toppings", note: "Pronounced broo-SKET-ta" },
+      { it: "Antipasto misto", en: "Mixed starters and appetisers", note: "Usually cured meats, cheeses, veg" },
+      { it: "Primo piatto", en: "First course — usually pasta or risotto", note: "" },
+      { it: "Secondo piatto", en: "Main course — usually meat or fish", note: "" },
+      { it: "Contorno", en: "Side dish", note: "Ordered separately from the main" },
+      { it: "Pasticciotto leccese", en: "Lecce custard pastry", note: "Eat one for breakfast in a bar — essential" },
+      { it: "Cartellate", en: "Fried pastry with honey or vincotto", note: "Traditional Puglian sweet" },
+      { it: "Gelato", en: "Ice cream", note: "" },
+      { it: "Granita", en: "Crushed ice dessert", note: "Lemon or almond are classic flavours" },
+      { it: "Tiramisu", en: "Coffee and mascarpone dessert", note: "Ubiquitous — rarely bad in Italy" },
+      { it: "Panna cotta", en: "Set cream dessert", note: "Often served with berry coulis" },
+      { it: "Caffe / Espresso", en: "Espresso coffee", note: "Just say 'un caffe' — espresso is the default" },
+      { it: "Caffe leccese", en: "Iced espresso with almond milk", note: "A Lecce speciality — refreshing in the heat" },
+      { it: "Cappuccino", en: "Espresso with steamed milk foam", note: "Only before noon — Italians are strict about this" },
+      { it: "Acqua minerale", en: "Mineral water", note: "Frizzante = sparkling, naturale = still" },
+      { it: "Vino della casa", en: "House wine", note: "Usually good value in Puglia" },
+      { it: "Primitivo", en: "Bold Puglian red wine", note: "Grown around Manduria — rich and full-bodied" },
+      { it: "Negroamaro", en: "Dark Puglian red wine", note: "Earthy and smooth — pairs well with lamb" },
+      { it: "Verdeca", en: "Light Puglian white wine", note: "Crisp and dry — good with seafood" },
+      { it: "Rosato", en: "Rose wine", note: "Puglia makes excellent dry rose" },
+      { it: "Limoncello", en: "Lemon liqueur", note: "Often offered as a digestivo after dinner" },
+      { it: "Amaro", en: "Bitter herbal digestif", note: "Offered free at many restaurants after the meal" },
+    ]
+  },
+  {
+    id: "restaurant",
+    icon: "🍽️",
+    title: "Restaurants & Food",
+    tip: "Italians absolutely adore children — walking in with a toddler and a baby will likely get you the best table in the house. Use it to your advantage!",
+    phrases: [
+      { it: "Un tavolo per quattro, per favore", en: "A table for four, please", note: "Your family of four" },
+      { it: "Abbiamo due bambini piccoli", en: "We have two small children", note: "Sets the tone immediately — staff will be accommodating" },
+      { it: "Ha un seggiolone?", en: "Do you have a high chair?", note: "For your 2-year-old son" },
+      { it: "Ha un posto per la carrozzina?", en: "Do you have space for a pram?", note: "For the 2-month-old" },
+      { it: "C'è un posto tranquillo dove allattare?", en: "Is there a quiet place to breastfeed?", note: "Italians are generally very relaxed about this" },
+      { it: "Posso scaldare il biberon?", en: "Can you warm a bottle for me?", note: "Any bar or restaurant will do this without hesitation" },
+      { it: "Ha un fasciatoio?", en: "Do you have a changing table?", note: "Useful to ask before you need it urgently!" },
+      { it: "Ho una prenotazione a nome di…", en: "I have a reservation under the name of…", note: "" },
+      { it: "Vorrei prenotare un tavolo per stasera — siamo in quattro, con due bambini", en: "I'd like to book a table for this evening — there are four of us, with two children", note: "The full booking phrase" },
+      { it: "Il menù, per favore", en: "The menu, please", note: "" },
+      { it: "Avete un menù per bambini?", en: "Do you have a children's menu?", note: "Not always available but worth asking" },
+      { it: "Cosa mi consiglia?", en: "What do you recommend?", note: "Locals love this question" },
+      { it: "Qual è il piatto del giorno?", en: "What is the dish of the day?", note: "" },
+      { it: "Vorrei…", en: "I would like…", note: "Essential ordering phrase" },
+      { it: "Prendo…", en: "I'll have…", note: "Natural alternative to 'vorrei'" },
+      { it: "Per il bambino, può portare qualcosa di semplice?", en: "For the little boy, can you bring something simple?", note: "Pasta in bianco (plain pasta with butter) is the Italian go-to for toddlers" },
+      { it: "Pasta in bianco, per favore", en: "Plain pasta with butter, please", note: "The classic Italian toddler meal — almost always available even if not on the menu" },
+      { it: "Può portare il pane subito, per favore?", en: "Could you bring the bread straight away, please?", note: "Buys you time with a hungry 2-year-old" },
+      { it: "Possiamo condividere un piatto?", en: "Can we share a dish?", note: "Useful for ordering less when the toddler eats from your plate" },
+      { it: "Sono allergico/a a…", en: "I'm allergic to…", note: "Add -a if female" },
+      { it: "Senza sale, per favore", en: "Without salt, please", note: "Important for a 2-month-old if any food is being tasted" },
+      { it: "Da bere, cosa avete?", en: "What do you have to drink?", note: "" },
+      { it: "Un bicchiere di vino rosso / bianco", en: "A glass of red / white wine", note: "You've earned it" },
+      { it: "Acqua naturale, per favore", en: "Still water, please", note: "Best for the children too" },
+      { it: "Un succo di frutta per il bambino", en: "A fruit juice for the little boy", note: "" },
+      { it: "Il conto, per favore", en: "The bill, please", note: "" },
+      { it: "Il servizio è incluso?", en: "Is service included?", note: "" },
+      { it: "È buonissimo!", en: "It's absolutely delicious!", note: "Essential compliment — say it and mean it" },
+      { it: "Antipasto / Primo / Secondo / Dolce", en: "Starter / First course / Main / Dessert", note: "Structure of a Puglian meal" },
+      { it: "Scusi, il bambino ha fatto un po' di casino…", en: "Sorry, the little boy made a bit of a mess…", note: "Said with a smile — Italians will wave it off warmly" },
+    ]
+  },
+  {
+    id: "cafe",
+    icon: "☕",
+    title: "Bar & Café",
+    tip: "Italian bars are brilliant with families — there's always something for the kids, and plenty of shade to sit in. A 2-year-old with a cornetto is a guaranteed crowd-pleaser.",
+    phrases: [
+      { it: "Un caffè, per favore", en: "An espresso, please", note: "'Caffè' = espresso by default" },
+      { it: "Un caffè macchiato", en: "Espresso with a dash of milk", note: "" },
+      { it: "Un cappuccino", en: "Cappuccino", note: "Only acceptable before noon for locals!" },
+      { it: "Un caffè freddo", en: "Cold coffee / Iced espresso", note: "Essential in the August heat" },
+      { it: "Un caffè leccese", en: "Iced espresso with almond milk", note: "The Lecce speciality — worth seeking out" },
+      { it: "Due cornetti, per favore", en: "Two croissants, please", note: "One for you, one for your toddler — he'll love it" },
+      { it: "Un succo di frutta per il bambino", en: "A fruit juice for the little boy", note: "" },
+      { it: "Avete del latte caldo?", en: "Do you have warm milk?", note: "For the toddler — bars always have it" },
+      { it: "Può scaldare questo biberon?", en: "Can you warm this bottle?", note: "For the baby — any bar will do this, just ask" },
+      { it: "Un gelato al cioccolato / alla fragola", en: "A chocolate / strawberry ice cream", note: "The toddler's reward for good behaviour" },
+      { it: "Al banco / Al tavolo", en: "At the bar / At the table", note: "Bar service is cheaper — harder with a pram, so tavolo may be easier" },
+      { it: "C'è un posto all'ombra?", en: "Is there a spot in the shade?", note: "Essential with a baby in August" },
+      { it: "Acqua naturale, per favore", en: "Still water, please", note: "" },
+      { it: "Ghiaccio", en: "Ice", note: "" },
+      { it: "Quanto costa?", en: "How much does it cost?", note: "" },
+      { it: "Posso pagare?", en: "Can I pay?", note: "" },
+    ]
+  },
+  {
+    id: "accommodation",
+    icon: "🏨",
+    title: "Accommodation",
+    tip: "Many Puglian properties are family-run masserias or B&Bs. Mention the children when you arrive — hosts will often go out of their way to help with a cot, extra towels, or somewhere to warm a bottle.",
+    phrases: [
+      { it: "Ho una prenotazione a nome di…", en: "I have a reservation under the name of…", note: "" },
+      { it: "Siamo una famiglia con due bambini piccoli", en: "We are a family with two young children", note: "Say this early — it sets expectations and unlocks goodwill" },
+      { it: "A che ora è il check-in?", en: "What time is check-in?", note: "" },
+      { it: "A che ora è il check-out?", en: "What time is check-out?", note: "" },
+      { it: "La camera è pronta?", en: "Is the room ready?", note: "" },
+      { it: "Posso lasciare i bagagli?", en: "Can I leave my luggage?", note: "Useful if you arrive before check-in" },
+      { it: "Avete un lettino per il bambino?", en: "Do you have a cot for the baby?", note: "For your 2-month-old — always worth confirming on arrival" },
+      { it: "C'è un posto sicuro dove mettere la carrozzina?", en: "Is there a safe place to leave the pram?", note: "" },
+      { it: "L'aria condizionata non funziona", en: "The air conditioning isn't working", note: "Critical in August — especially with a newborn" },
+      { it: "La camera è troppo calda per i bambini", en: "The room is too hot for the children", note: "A gentle but clear way to escalate the AC issue" },
+      { it: "Posso avere delle coperte extra / dei cuscini extra?", en: "Can I have extra blankets / extra pillows?", note: "" },
+      { it: "Mancano gli asciugamani", en: "There are no towels", note: "" },
+      { it: "Avete asciugamani piccoli per i bambini?", en: "Do you have small towels for the children?", note: "" },
+      { it: "C'è una lavatrice che posso usare?", en: "Is there a washing machine I can use?", note: "A lifesaver with a baby — nappies and muslins add up fast" },
+      { it: "Dove posso smaltire i pannolini?", en: "Where can I dispose of nappies?", note: "Good to know on arrival" },
+      { it: "Può scaldare questo biberon?", en: "Can you warm this bottle?", note: "Most accommodation will help without hesitation" },
+      { it: "C'è il Wi-Fi? Qual è la password?", en: "Is there Wi-Fi? What's the password?", note: "" },
+      { it: "La finestra non si apre", en: "The window won't open", note: "" },
+      { it: "A che ora viene servita la colazione?", en: "What time is breakfast served?", note: "" },
+      { it: "I bambini mangiano gratis?", en: "Do the children eat for free?", note: "Common at family-run places — always worth asking" },
+      { it: "C'è una piscina? È adatta ai bambini?", en: "Is there a pool? Is it suitable for children?", note: "" },
+      { it: "È stata una visita splendida — grazie di tutto", en: "It's been a wonderful stay — thank you for everything", note: "Leave on a high!" },
+    ]
+  },
+  {
+    id: "shopping",
+    icon: "🛍️",
+    title: "Shopping & Markets",
+    tip: "Puglia's markets are wonderful. Arrive early at food markets — the best produce goes fast. A smile and a 'buongiorno' goes a long way.",
+    phrases: [
+      { it: "Quanto costa questo?", en: "How much does this cost?", note: "" },
+      { it: "Quanto costano questi?", en: "How much do these cost?", note: "Plural" },
+      { it: "È troppo caro", en: "It's too expensive", note: "" },
+      { it: "Ha qualcosa di meno caro?", en: "Do you have something cheaper?", note: "" },
+      { it: "Lo prendo", en: "I'll take it", note: "" },
+      { it: "Non lo prendo, grazie", en: "I won't take it, thank you", note: "" },
+      { it: "Posso provarlo?", en: "Can I try it? (food, tasting)", note: "" },
+      { it: "Posso provarlo/a?", en: "Can I try it on? (clothing)", note: "" },
+      { it: "Ce l'ha in una taglia più grande/piccola?", en: "Do you have it in a larger/smaller size?", note: "" },
+      { it: "Accettate carte di credito?", en: "Do you accept credit cards?", note: "" },
+      { it: "Pago in contanti", en: "I'll pay in cash", note: "" },
+      { it: "Dove si trova il supermercato?", en: "Where is the supermarket?", note: "" },
+      { it: "Dove si trova il mercato locale?", en: "Where is the local market?", note: "" },
+      { it: "A che ora apre / chiude?", en: "What time does it open / close?", note: "Many Italian shops close in the afternoon" },
+      { it: "Dov'è la cassa?", en: "Where is the checkout / till?", note: "" },
+      { it: "Ho bisogno di un sacchetto", en: "I need a bag", note: "Bags cost a small fee in Italian supermarkets" },
+      { it: "Dove sono i pannolini?", en: "Where are the nappies?", note: "" },
+      { it: "Dove sono i prodotti per bambini?", en: "Where are the baby products?", note: "" },
+      { it: "Avete latte in polvere per neonati?", en: "Do you have baby formula milk?", note: "For the 2-month-old" },
+      { it: "Cerco la crema solare", en: "I'm looking for sun cream", note: "" },
+      { it: "Dove sono frutta e verdura?", en: "Where is the fruit and veg?", note: "" },
+      { it: "È fresco?", en: "Is it fresh?", note: "Good question at a market stall" },
+      { it: "Quanto costa questo al chilo?", en: "How much is this per kilo?", note: "" },
+      { it: "Me ne dia due etti", en: "Give me 200 grams of it", note: "Useful at deli counters — etto = 100g" },
+      { it: "Basta così, grazie", en: "That's enough, thank you", note: "Tell the vendor to stop" },
+      { it: "Ha qualcosa di locale?", en: "Do you have anything local?", note: "Great for discovering Puglian produce" },
+    ]
+  },
+  {
+    id: "directions",
+    icon: "🗺️",
+    title: "Getting Around",
+    tip: "Street names in Puglia can be tricky. Screenshot maps in advance — signal can be patchy in the old towns (centri storici).",
+    phrases: [
+      { it: "Dov'è…?", en: "Where is…?", note: "" },
+      { it: "Come arrivo a…?", en: "How do I get to…?", note: "" },
+      { it: "A sinistra / A destra", en: "To the left / To the right", note: "" },
+      { it: "Dritto / Sempre dritto", en: "Straight ahead / Keep going straight", note: "" },
+      { it: "Vicino / Lontano", en: "Near / Far", note: "" },
+      { it: "Dietro / Davanti", en: "Behind / In front of", note: "" },
+      { it: "All'angolo", en: "On the corner", note: "" },
+      { it: "Quanto dista a piedi?", en: "How far is it on foot?", note: "" },
+      { it: "La stazione degli autobus", en: "The bus station", note: "" },
+      { it: "Un biglietto per…, per favore", en: "A ticket to…, please", note: "" },
+      { it: "A che ora parte?", en: "What time does it leave?", note: "" },
+      { it: "A che ora arriva?", en: "What time does it arrive?", note: "" },
+      { it: "Può chiamarmi un taxi?", en: "Can you call me a taxi?", note: "" },
+      { it: "Mi porti a…, per favore", en: "Take me to…, please", note: "For taxis" },
+      { it: "Dov'è il posteggio dei taxi?", en: "Where is the taxi rank?", note: "" },
+      { it: "Chiami un taxi, per favore", en: "Please call a taxi", note: "Ask a hotel or restaurant to call one for you" },
+      { it: "Quanto costa andare a…?", en: "How much does it cost to go to…?", note: "Always good to agree the price upfront" },
+      { it: "Il tassametro è acceso?", en: "Is the meter running?", note: "Check this when you get in" },
+      { it: "Ci sono bambini piccoli — va bene?", en: "We have young children — is that okay?", note: "Useful heads-up for the driver" },
+      { it: "Abbiamo un passeggino — può aprire il bagagliaio?", en: "We have a pushchair — can you open the boot?", note: "" },
+      { it: "Può aspettarci? Torniamo subito", en: "Can you wait for us? We'll be back shortly", note: "" },
+      { it: "Si fermi qui, per favore", en: "Stop here, please", note: "" },
+      { it: "Può farmi una ricevuta?", en: "Can you give me a receipt?", note: "" },
+      { it: "Il centro storico", en: "The historic centre / old town", note: "Key phrase for exploring Puglia's gems" },
+      { it: "La spiaggia", en: "The beach", note: "" },
+      { it: "Il porto", en: "The port / harbour", note: "" },
+      { it: "La masseria", en: "A Puglian farmhouse estate", note: "Traditional Puglian accommodation" },
+    ]
+  },
+  {
+    id: "beach",
+    icon: "🌊",
+    title: "Beach & Coast",
+    tip: "Puglia has some of Italy's most stunning coastline. The Adriatic is calm, the Ionian wilder. Know your 'scogliera' (rocky shore) from your 'sabbia' (sand).",
+    phrases: [
+      { it: "Dov'è la spiaggia più vicina?", en: "Where is the nearest beach?", note: "" },
+      { it: "È libero questo posto?", en: "Is this spot free?", note: "" },
+      { it: "Quanto costa un ombrellone?", en: "How much is a sunbed/umbrella?", note: "" },
+      { it: "Due lettini e un ombrellone", en: "Two sunbeds and one umbrella", note: "" },
+      { it: "Il mare è calmo oggi?", en: "Is the sea calm today?", note: "" },
+      { it: "Si può fare il bagno qui?", en: "Can you swim here?", note: "" },
+      { it: "C'è una corrente?", en: "Is there a current?", note: "" },
+      { it: "Dove posso noleggiare un kayak?", en: "Where can I hire a kayak?", note: "" },
+      { it: "La spiaggia di sabbia / di scogli", en: "Sandy beach / Rocky beach", note: "" },
+      { it: "Attenzione alle meduse", en: "Watch out for jellyfish", note: "Unfortunately common in August" },
+      { it: "Ho preso troppo sole", en: "I've had too much sun", note: "" },
+      { it: "Una crema solare, per favore", en: "A sun cream, please", note: "" },
+    ]
+  },
+  {
+    id: "emergency",
+    icon: "🚨",
+    title: "Emergencies",
+    tip: "Hope you never need these — but having them memorised gives real peace of mind. Save the number 112 (European emergency) in your phone.",
+    phrases: [
+      { it: "Aiuto!", en: "Help!", note: "" },
+      { it: "Chiami un'ambulanza!", en: "Call an ambulance!", note: "" },
+      { it: "Chiami la polizia!", en: "Call the police!", note: "" },
+      { it: "C'è stato un incidente", en: "There has been an accident", note: "" },
+      { it: "Ho bisogno di un medico", en: "I need a doctor", note: "" },
+      { it: "Mi hanno rubato il portafoglio", en: "My wallet has been stolen", note: "" },
+      { it: "Ho perso il passaporto", en: "I've lost my passport", note: "" },
+      { it: "Mi sono perso/a", en: "I'm lost", note: "-a if female" },
+      { it: "Dov'è l'ospedale più vicino?", en: "Where is the nearest hospital?", note: "" },
+      { it: "Sono allergico/a a…", en: "I'm allergic to…", note: "Keep this one memorised" },
+      { it: "Prendo questi farmaci", en: "I take these medications", note: "Point to your medication" },
+      { it: "Mi fa male qui", en: "It hurts here", note: "Point to the area" },
+      { it: "Numero di emergenza europeo: 112", en: "European emergency number: 112", note: "Police, ambulance, fire" },
+    ]
+  }
+];
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+
+let currentSection = 'essentials';
+let flipped = {};
+let searchQuery = '';
+let activeTag = 'all';
+
+// Quiz state
+let quizQuestions = [];
+let quizSubmitted = false;
+
+// Pronunciation cache: { sectionId: [pron strings] }
+const pronCache = {};
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+
+function getAllPhrases() {
+  const all = [];
+  sections.filter(s => s.id !== 'foodbank').forEach(s => s.phrases.forEach(p => all.push(p)));
+  return all;
+}
+
+function pickRandom(arr, n) {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, n);
+}
+
+function normalise(str) {
+  return str
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s\/]/g, '')
+    .replace(/\s*\/\s*/g, ' / ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function isAnswerCorrect(userRaw, correctRaw) {
+  if (!userRaw || userRaw.trim() === '') return false;
+  const user = normalise(userRaw);
+  const correct = normalise(correctRaw);
+
+  // Exact full match
+  if (user === correct) return true;
+
+  // Match any single alternative (split on " / ")
+  const alts = correct.split(' / ').map(a => a.trim());
+  return alts.some(alt => {
+    if (alt === user) return true;
+    if (alt.length > 3 && (alt.includes(user) || user.includes(alt))) return true;
+    return false;
+  });
+}
+
+function scoreMessage(score) {
+  if (score === 10) return 'Perfetto! You\'re ready for Puglia.';
+  if (score >= 8)  return 'Ottimo! Really impressive.';
+  if (score >= 6)  return 'Bene! Solid effort — keep going.';
+  if (score >= 4)  return 'Non male. A bit more study needed!';
+  return 'Keep practising — you\'ll get there!';
+}
+
+// ── NAV ──────────────────────────────────────────────────────────────────────
+
+function buildNav() {
+  const nav = document.getElementById('navInner');
+  const allSections = [...sections, { id: 'quiz', icon: '✏️', title: 'Quiz' }];
+  nav.innerHTML = allSections.map(s => `
+    <button class="nav-btn ${s.id === currentSection ? 'active' : ''}"
+            onclick="switchSection('${s.id}')">
+      ${s.icon} ${s.title}
+    </button>
+  `).join('');
+}
+
+// ── PRONUNCIATIONS (baked in) ─────────────────────────────────────────────────
+
+const pronData = {
+  essentials: [
+    "bwon-JOR-no","bwona-SAY-ra","bwona-NOT-teh","CHOW","ar-ree-veh-DER-chee",
+    "pair fa-VOR-eh / pair pya-CHEH-reh","GRAT-syeh / GRAT-syeh MIL-leh","PREH-go",
+    "mee SKOO-zee","SKOO-za","SEE / NO","ka-PIS-ko","non ka-PIS-ko",
+    "pwo ree-peh-TEH-reh pair fa-VOR-eh","PAR-la een-GLEH-zeh",
+    "PAR-la PYOO len-TA-men-teh pair fa-VOR-eh",
+    "KOH-meh see DEE-cheh een ee-tal-YA-no",
+    "non PAR-lo BEH-neh lee-tal-YA-no",
+    "KOH-meh STAI / KOH-meh STA","BEH-neh GRAT-syeh",
+    "sto eem-pa-RAN-do lee-tal-YA-no / sto stoo-DYAN-do lee-tal-YA-no",
+    "pya-CHEH-reh dee ko-NO-shair-tee",
+    "mee KYA-mo George",
+    "SYA-mo een-GLEH-zee / veh-NYA-mo dal-een-ghil-TER-ra",
+    "PAR-lo oon po dee-tal-YA-no",
+    "MYO FEEL-yo see KYA-ma",
+    "MEE-a FEEL-ya see KYA-ma",
+  ],
+  foodbank: [
+    "or-ek-YET-teh","CHEE-meh dee RA-pa","boo-RA-ta","mot-sa-REL-la",
+    "strat-cha-TEL-la","fo-KAH-cha ba-REH-zeh","ta-RAL-lee","FA-veh eh chee-KOR-ya",
+    "TYEL-la ba-REH-zeh","POL-po AL-la loo-CHA-na","KROO-do dee MA-reh",
+    "REE-chee dee MA-reh","KOT-zeh gra-tee-NA-teh","a-LEE-chee / at-CHOO-geh",
+    "ZGOM-bro","bran-ZEE-no","o-RA-ta","an-YEL-lo","bra-ZA-to","sal-SEE-cha",
+    "bom-BET-teh","vair-DOO-reh gree-LYA-teh","mel-an-ZA-neh",
+    "po-mo-DOR-ee SEK-kee","O-lee-veh as-ko-LA-neh","pan-za-NEL-la",
+    "een-sa-LA-ta MIS-ta","ka-po-NA-ta","broo-SKET-ta","an-tee-PAS-to MIS-to",
+    "PREE-mo PYA-tto","se-KON-do PYA-tto","kon-TOR-no",
+    "pas-tee-CHOT-to lek-CHEH-zeh","kar-tel-LA-teh","jeh-LA-to","gra-NEE-ta",
+    "tee-ra-mee-SOO","PAN-na KOT-ta","KAF-feh / es-PRES-so",
+    "KAF-feh lek-CHEH-zeh","kap-poo-CHEE-no","AK-wa mee-neh-RA-leh",
+    "VEE-no DEL-la KA-za","pree-mee-TEE-vo","neh-gro-a-MA-ro",
+    "vair-DEH-ka","ro-ZA-to","lee-mon-CHEL-lo","a-MA-ro"
+  ],
+  restaurant: [
+    "oon TA-vo-lo pair KWAT-tro pair fa-VOR-eh",
+    "ab-BYA-mo DOO-eh bam-BEE-nee pee-KO-lee",
+    "a oon sed-jo-LO-neh","a oon POS-to pair la kar-rot-SEE-na",
+    "cheh oon POS-to tran-KWIL-lo DOH-veh al-lat-TA-reh",
+    "POS-so skal-DA-reh eel bee-beh-RON",
+    "a oon fa-sha-TO-yo","o OO-na preh-no-ta-TSYO-neh a NO-meh dee",
+    "vor-RAY preh-no-TA-reh oon TA-vo-lo pair sta-SEH-ra — SYA-mo een KWAT-tro kon DOO-eh bam-BEE-nee",
+    "eel meh-NOO pair fa-VOR-eh","a-VEH-teh oon meh-NOO pair bam-BEE-nee",
+    "KO-za mee kon-SEE-lya","kwal EH eel PYA-tto del JOR-no",
+    "vor-RAY","PREN-do",
+    "pair eel bam-BEE-no pwo por-TA-reh kwal-KO-za dee SEM-plee-cheh",
+    "PAS-ta een BYAN-ko pair fa-VOR-eh",
+    "pwo por-TA-reh eel PA-neh SOO-bee-to pair fa-VOR-eh",
+    "pos-SYA-mo kon-dee-VEE-deh-reh oon PYA-tto",
+    "SO-no al-ER-jee-ko/a a","SEN-tsa SA-leh pair fa-VOR-eh",
+    "da BEH-reh KO-za a-VEH-teh",
+    "oon bee-KYEH-reh dee VEE-no ROS-so / BYAN-ko",
+    "AK-wa na-too-RA-leh pair fa-VOR-eh",
+    "oon SOO-ko dee FROO-ta pair eel bam-BEE-no",
+    "eel KON-to pair fa-VOR-eh","eel ser-VEE-tsyo EH een-KLOO-zo",
+    "EH bwon-IS-see-mo",
+    "an-tee-PAS-to / PREE-mo / se-KON-do / DOL-cheh",
+    "SKOO-zee eel bam-BEE-no a FAT-to oon po dee ka-ZEE-no"
+  ],
+  cafe: [
+    "oon KAF-feh pair fa-VOR-eh","oon KAF-feh mak-YA-to","oon kap-poo-CHEE-no",
+    "oon KAF-feh FRED-do","oon KAF-feh lek-CHEH-zeh",
+    "DOO-eh kor-NET-tee pair fa-VOR-eh",
+    "oon SOO-ko dee FROO-ta pair eel bam-BEE-no",
+    "a-VEH-teh del LAT-teh KAL-do",
+    "pwo skal-DA-reh KWES-to bee-beh-RON",
+    "oon jeh-LA-to al cho-ko-LA-to / al-la fra-GO-la",
+    "al BAN-ko / al TA-vo-lo","cheh oon POS-to al OM-bra",
+    "AK-wa na-too-RA-leh pair fa-VOR-eh","GYA-cho",
+    "KWAN-to KOS-ta","POS-so pa-GA-reh"
+  ],
+  accommodation: [
+    "o OO-na preh-no-ta-TSYO-neh a NO-meh dee",
+    "SYA-mo OO-na fa-MEE-lya kon DOO-eh bam-BEE-nee pee-KO-lee",
+    "a KE O-ra EH eel chek-EEN","a KE O-ra EH eel chek-OWT",
+    "la KA-meh-ra EH PRON-ta","POS-so las-SHA-reh ee ba-GA-lee",
+    "a-VEH-teh oon let-TEE-no pair eel bam-BEE-no",
+    "cheh oon POS-to see-KOO-ro DOH-veh MET-teh-reh la kar-rot-SEE-na",
+    "la-RYA kon-dee-tsyo-NA-ta non FOON-tsyo-na",
+    "la KA-meh-ra EH TROP-po KAL-da pair ee bam-BEE-nee",
+    "POS-so a-VEH-reh DEL-leh ko-PEHR-teh EK-stra / day koo-SHEE-nee EK-stra",
+    "MAN-ka-no ee a-shoo-ga-MA-nee",
+    "a-VEH-teh a-shoo-ga-MA-nee pee-KO-lee pair ee bam-BEE-nee",
+    "cheh OO-na la-va-TREE-cheh keh POS-so OO-za-reh",
+    "DOH-veh POS-so smal-TEE-reh ee pan-no-LEE-nee",
+    "pwo skal-DA-reh KWES-to bee-beh-RON",
+    "cheh eel wee-FEE kwal EH la PAS-word",
+    "la fee-NES-tra non see A-preh",
+    "a KE O-ra VYEN-eh ser-VEE-ta la ko-la-TSYO-neh",
+    "ee bam-BEE-nee MAN-ja-no GRA-tis",
+    "cheh OO-na pee-SHEE-na EH a-DAT-ta ai bam-BEE-nee",
+    "EH STA-ta OO-na vee-ZEE-ta splen-DEE-da GRAT-syeh dee TOO-tto"
+  ],
+  shopping: [
+    "KWAN-to KOS-ta KWES-to","KWAN-to KOS-ta-no KWES-tee","EH TROP-po KA-ro",
+    "a kwal-KO-za dee ME-no KA-ro","lo PREN-do","non lo PREN-do GRAT-syeh",
+    "POS-so pro-VAR-lo","POS-so pro-VAR-lo/a",
+    "cheh la een OO-na TA-lya PYOO GRAN-deh / pee-KO-la",
+    "at-CHET-ta-teh KAR-teh dee KREH-dee-to","PA-go een kon-TAN-tee",
+    "DOH-veh see TRO-va eel soo-pehr-mair-KA-to",
+    "DOH-veh see TRO-va eel mair-KA-to lo-KA-leh",
+    "a KE O-ra A-preh / KYU-deh",
+    "do-VEH la KAS-sa",
+    "o bee-ZON-yo dee oon sak-KET-to",
+    "DOH-veh SO-no ee pan-no-LEE-nee",
+    "DOH-veh SO-no ee pro-DOT-tee pair bam-BEE-nee",
+    "a-VEH-teh LAT-teh een POL-veh-reh pair neh-o-NA-tee",
+    "CHAIR-ko la KREH-ma so-LA-reh",
+    "DOH-veh SO-no FROO-ta eh vair-DOO-ra",
+    "EH FRES-ko",
+    "KWAN-to KOS-ta KWES-to al KEE-lo",
+    "meh neh DEE-a DOO-eh ET-tee",
+    "BAS-ta ko-ZEE GRAT-syeh",
+    "a kwal-KO-za dee lo-KA-leh"
+  ],
+  directions: [
+    "do-VEH","KO-meh ar-REE-vo a",
+    "a see-NEES-tra / a DES-tra","DRIT-to / SEM-pre DRIT-to",
+    "vee-CHEE-no / lon-TA-no","DYEH-tro / da-VAN-tee","al-LAN-go-lo",
+    "KWAN-to DEES-ta a PYE-dee","la sta-TSYO-neh de-lee ow-TOO-boos",
+    "oon beel-YET-to pair pair fa-VOR-eh",
+    "a KE O-ra PAR-teh","a KE O-ra ar-REE-va",
+    "pwo kya-MAR-mee oon TAK-see",
+    "mee POR-tee a pair fa-VOR-eh",
+    "do-VEH eel pos-TEJ-jo day TAK-see",
+    "KYA-mee oon TAK-see pair fa-VOR-eh",
+    "KWAN-to KOS-ta an-DA-reh a",
+    "eel tas-sa-MEH-tro EH at-CHEH-zo",
+    "chee SO-no bam-BEE-nee pee-KO-lee va BEH-neh",
+    "ab-BYA-mo oon pas-sej-JEE-no pwo a-PREE-reh eel ba-ga-LYA-yo",
+    "pwo as-pet-TAR-chee tor-NYA-mo SOO-bee-to",
+    "see FAIR-mee kwee pair fa-VOR-eh",
+    "pwo FAR-mee OO-na ree-cheh-VOO-ta",
+    "eel CHEN-tro STOR-ee-ko","la SBYA-ja","eel POR-to","la mas-seh-REE-a"
+  ],
+  beach: [
+    "do-VEH la SBYA-ja PYOO vee-CHEE-na","EH LEE-beh-ro KWES-to POS-to",
+    "KWAN-to KOS-ta oon om-brel-LO-neh","DOO-eh let-TEE-nee eh oon om-brel-LO-neh",
+    "eel MA-reh EH KAL-mo OJ-jee","see pwo FA-reh eel BA-nyo kwee",
+    "cheh OO-na kor-REN-teh","DOH-veh POS-so nol-ej-JA-reh oon ka-YAK",
+    "la SBYA-ja dee SA-bya / dee SKOL-yee","at-ten-TSYO-neh al-leh meh-DOO-zeh",
+    "o PRES-o TROP-po SO-leh","OO-na KREH-ma so-LA-reh pair fa-VOR-eh"
+  ],
+  emergency: [
+    "a-YOO-to","KYA-mee oon-am-boo-LAN-tsa","KYA-mee la po-LEETS-ya",
+    "cheh STA-to oon een-chee-DEN-teh","o bee-ZON-yo dee oon MEH-dee-ko",
+    "mee AN-no ROO-ba-to eel por-ta-FOL-yo","o PAIR-so eel pas-sa-POR-to",
+    "mee SO-no PAIR-so/a","do-VEH los-peh-DA-leh PYOO vee-CHEE-no",
+    "SO-no al-ER-jee-ko/a a","PREN-do KWES-tee FAR-ma-chee",
+    "mee fa MA-leh kwee","NOO-meh-ro dee eh-mair-JEN-tsa ew-ro-PEH-o CHEN-to DO-dee-chee"
+  ]
+};
+
+function loadPronunciations(sectionId) {
+  if (!pronCache[sectionId] && pronData[sectionId]) {
+    pronCache[sectionId] = pronData[sectionId];
+  }
+}
+
+function switchSection(id) {
+  currentSection = id;
+  searchQuery = '';
+  activeTag = 'all';
+  flipped = {};
+  buildNav();
+  if (id === 'quiz') {
+    renderQuizIntro();
+  } else {
+    renderSection();
+    loadPronunciations(id);
+  }
+}
+
+// ── PHRASE SECTION ───────────────────────────────────────────────────────────
+
+function renderSection() {
+  const sec = sections.find(s => s.id === currentSection);
+  const main = document.getElementById('main');
+
+  let phrases = sec.phrases;
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    phrases = phrases.filter(p =>
+      p.it.toLowerCase().includes(q) ||
+      p.en.toLowerCase().includes(q) ||
+      (p.note && p.note.toLowerCase().includes(q))
+    );
+  }
+
+  const total = sec.phrases.length;
+  const visible = phrases.length;
+
+  main.innerHTML = `
+    <div class="section active">
+      <div class="section-header">
+        <span class="section-icon">${sec.icon}</span>
+        <span class="section-title">${sec.title}</span>
+        <span class="section-count">${visible} / ${total} phrases</span>
+      </div>
+
+      <div class="search-bar">
+        <span class="search-icon">⌕</span>
+        <input
+          type="text"
+          placeholder="Search phrases..."
+          value="${searchQuery}"
+          oninput="handleSearch(this.value)"
+        >
+      </div>
+
+      <div class="phrase-grid" id="phraseGrid">
+        ${phrases.length ? phrases.map((p, i) => renderCard(p, i)).join('') :
+          '<div class="no-results">No phrases match your search.</div>'}
+      </div>
+
+      ${sec.tip ? `
+        <div class="study-tip">
+          <strong>💡 Study Tip</strong>
+          ${sec.tip}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderCard(p, i) {
+  const key = `${currentSection}_${i}`;
+  const isFlipped = flipped[key];
+  const prons = pronCache[currentSection];
+  const pron = prons ? prons[i] : null;
+  const pronHTML = isFlipped && pron ? `<div class="card-pron">🔊 ${pron}</div>` : '';
+  return `
+    <div class="card ${isFlipped ? 'flipped' : ''}" onclick="flipCard(${i})">
+      <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
+      <div class="card-italian">${p.it}</div>
+      <div class="card-english">${isFlipped ? p.en : '···'}</div>
+      ${pronHTML}
+      ${p.note && isFlipped ? `<div class="card-note">ℹ ${p.note}</div>` : ''}
+    </div>
+  `;
+}
+
+function flipCard(i) {
+  const sec = sections.find(s => s.id === currentSection);
+  let phrases = sec.phrases;
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    phrases = phrases.filter(p =>
+      p.it.toLowerCase().includes(q) ||
+      p.en.toLowerCase().includes(q) ||
+      (p.note && p.note.toLowerCase().includes(q))
+    );
+  }
+  const p = phrases[i];
+  const origIdx = sec.phrases.indexOf(p);
+  const key = `${currentSection}_${origIdx}`;
+  flipped[key] = !flipped[key];
+
+  const grid = document.getElementById('phraseGrid');
+  if (grid) {
+    const cards = grid.querySelectorAll('.card');
+    if (cards[i]) {
+      const card = cards[i];
+      const isFlipped = flipped[key];
+      card.className = `card ${isFlipped ? 'flipped' : ''}`;
+      card.querySelector('.card-flip-hint').textContent = isFlipped ? '↩ back' : 'tap to reveal';
+      card.querySelector('.card-english').textContent = isFlipped ? p.en : '···';
+
+      // Pronunciation
+      const existingPron = card.querySelector('.card-pron, .card-pron-loading');
+      if (existingPron) existingPron.remove();
+      if (isFlipped) {
+        const prons = pronCache[currentSection];
+        const pronEl = document.createElement('div');
+        if (prons && prons[origIdx]) {
+          pronEl.className = 'card-pron';
+          pronEl.textContent = '🔊 ' + prons[origIdx];
+          card.querySelector('.card-english').insertAdjacentElement('afterend', pronEl);
+        }
+      }
+
+      // Note
+      const noteEl = card.querySelector('.card-note');
+      if (isFlipped && p.note) {
+        if (!noteEl) {
+          const note = document.createElement('div');
+          note.className = 'card-note';
+          note.textContent = 'ℹ ' + p.note;
+          card.appendChild(note);
+        }
+      } else if (noteEl) {
+        noteEl.remove();
+      }
+    }
+  }
+}
+
+function handleSearch(val) {
+  searchQuery = val;
+  renderSection();
+}
+
+// ── QUIZ ─────────────────────────────────────────────────────────────────────
+
+function renderQuizIntro() {
+  const total = getAllPhrases().length;
+  document.getElementById('main').innerHTML = `
+    <div class="section active">
+      <div class="section-header">
+        <span class="section-icon">✏️</span>
+        <span class="section-title">Quiz</span>
+      </div>
+      <div class="quiz-intro">
+        <p>10 random Italian phrases drawn from all ${total} entries across every section.<br>
+        Type the English translation for each one. Spelling doesn't have to be perfect — close answers count.</p>
+        <button class="quiz-btn" onclick="startQuiz()">Start Quiz</button>
+      </div>
+    </div>
+  `;
+}
+
+function startQuiz() {
+  quizQuestions = pickRandom(getAllPhrases(), 10);
+  quizSubmitted = false;
+  renderQuizQuestions();
+}
+
+function renderQuizQuestions() {
+  const questionsHTML = quizQuestions.map((p, i) => `
+    <div class="quiz-question" id="qq-${i}">
+      <div class="quiz-q-meta">Question ${i + 1} of 10</div>
+      <div class="quiz-italian">${p.it}</div>
+      <input
+        class="quiz-input"
+        type="text"
+        id="qi-${i}"
+        placeholder="Your answer…"
+        autocomplete="off"
+        onkeydown="handleQuizKey(event, ${i})"
+      >
+      <button class="skip-btn" id="qskip-${i}" onclick="skipQuestion(${i})">Skip</button>
+      <div class="quiz-feedback" id="qf-${i}"></div>
+    </div>
+  `).join('');
+
+  document.getElementById('main').innerHTML = `
+    <div class="section active">
+      <div class="section-header">
+        <span class="section-icon">✏️</span>
+        <span class="section-title">Quiz</span>
+        <span class="section-count">10 questions</span>
+      </div>
+      ${questionsHTML}
+      <div class="quiz-actions">
+        <button class="quiz-btn" onclick="submitQuiz()">Submit Answers</button>
+        <button class="quiz-btn secondary" onclick="startQuiz()">New Quiz</button>
+      </div>
+    </div>
+  `;
+  document.querySelector('#qq-0 .quiz-input').focus();
+}
+
+function skipQuestion(i) {
+  const input = document.getElementById(`qi-${i}`);
+  const skipBtn = document.getElementById(`qskip-${i}`);
+  input.value = '';
+  input.disabled = true;
+  input.placeholder = 'Skipped';
+  skipBtn.style.display = 'none';
+  const next = document.getElementById(`qi-${i + 1}`);
+  if (next) next.focus();
+}
+
+function handleQuizKey(event, i) {
+  if (event.key !== 'Enter') return;
+  event.preventDefault();
+  const next = document.getElementById(`qi-${i + 1}`);
+  if (next) {
+    next.focus();
+  }
+}
+
+function submitQuiz() {
+  if (quizSubmitted) return;
+  quizSubmitted = true;
+  let score = 0;
+
+  quizQuestions.forEach((p, i) => {
+    const input = document.getElementById(`qi-${i}`);
+    const feedback = document.getElementById(`qf-${i}`);
+    const skipBtn = document.getElementById(`qskip-${i}`);
+    if (skipBtn) skipBtn.style.display = 'none';
+    const userAnswer = input.value;
+    const isSkipped = input.disabled && input.value === '';
+    const isCorrect = !isSkipped && isAnswerCorrect(userAnswer, p.en);
+
+    input.disabled = true;
+    if (isCorrect) {
+      score++;
+      input.classList.add('correct');
+      feedback.className = 'quiz-feedback correct';
+      feedback.textContent = '✓ Correct';
+    } else {
+      input.classList.add('incorrect');
+      feedback.className = 'quiz-feedback incorrect';
+      feedback.innerHTML = `✗ The answer was: <span class="correct-answer">${p.en}</span>`;
+    }
+  });
+
+  // Scroll to top and show score banner
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const header = document.querySelector('.section-header');
+  const banner = document.createElement('div');
+  banner.className = 'quiz-score-banner';
+  banner.innerHTML = `
+    <div class="quiz-score-number">${score}<span style="font-size:0.5em;color:var(--stone);">/10</span></div>
+    <div class="quiz-score-label">Your Score</div>
+    <div class="quiz-score-msg">${scoreMessage(score)}</div>
+    <div class="quiz-tally">${score} correct · ${10 - score} to review</div>
+    <button class="quiz-btn" onclick="startQuiz()">Try Again with New Questions</button>
+  `;
+  header.insertAdjacentElement('afterend', banner);
+
+  // Replace submit button with retry only
+  const actions = document.querySelector('.quiz-actions');
+  if (actions) actions.remove();
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+
+buildNav();
+renderSection();
+loadPronunciations(currentSection);
+</script>
+</body>
+</html>
