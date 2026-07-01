@@ -323,7 +323,52 @@
 
   .card.flipped .card-flip-hint { color: var(--stone); }
 
-  /* TAG CHIPS */
+  /* STAR / FAVOURITES */
+  .card-star {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0.1rem;
+    opacity: 0.25;
+    transition: opacity 0.15s, transform 0.15s;
+    z-index: 2;
+  }
+  .card-star:hover { opacity: 0.7; transform: scale(1.2); }
+  .card-star.starred { opacity: 1; }
+  .card.flipped .card-star { opacity: 0.4; }
+  .card.flipped .card-star.starred { opacity: 1; }
+
+  .card-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 0.4rem;
+  }
+
+  .fav-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--stone);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .fav-empty .fav-empty-star {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+  }
+
+
   .tag-filters {
     display: flex;
     flex-wrap: wrap;
@@ -936,7 +981,7 @@ const sections = [
 
 // ── STATE ────────────────────────────────────────────────────────────────────
 
-let currentSection = 'essentials';
+let currentSection = 'favourites';
 let flipped = {};
 let searchQuery = '';
 let activeTag = 'all';
@@ -947,6 +992,149 @@ let quizSubmitted = false;
 
 // Pronunciation cache: { sectionId: [pron strings] }
 const pronCache = {};
+
+// ── FAVOURITES ────────────────────────────────────────────────────────────────
+
+let favourites = new Set(JSON.parse(localStorage.getItem('puglia_favs') || '[]'));
+
+function saveFavourites() {
+  localStorage.setItem('puglia_favs', JSON.stringify([...favourites]));
+}
+
+function getFavKey(sectionId, phraseIt) {
+  return `${sectionId}::${phraseIt}`;
+}
+
+function toggleFavourite(sectionId, phraseIt, event) {
+  event.stopPropagation();
+  const key = getFavKey(sectionId, phraseIt);
+  if (favourites.has(key)) {
+    favourites.delete(key);
+  } else {
+    favourites.add(key);
+  }
+  saveFavourites();
+  // Update star in DOM without re-rendering whole section
+  const grid = document.getElementById('phraseGrid');
+  if (grid) {
+    grid.querySelectorAll('.card-star').forEach(btn => {
+      if (btn.dataset.it === phraseIt && btn.dataset.section === sectionId) {
+        btn.classList.toggle('starred', favourites.has(key));
+        btn.title = favourites.has(key) ? 'Remove from favourites' : 'Add to favourites';
+      }
+    });
+  }
+  // If on favourites page, re-render
+  if (currentSection === 'favourites') renderFavourites();
+}
+
+function renderFavourites() {
+  const main = document.getElementById('main');
+  const count = favourites.size;
+
+  const favPhrases = []; // { sectionId, sectionTitle, sectionIcon, phrase, origIdx, pronIdx }
+  sections.forEach(sec => {
+    sec.phrases.forEach((p, idx) => {
+      if (favourites.has(getFavKey(sec.id, p.it))) {
+        favPhrases.push({ sectionId: sec.id, sectionTitle: sec.title, sectionIcon: sec.icon, phrase: p, origIdx: idx });
+      }
+    });
+  });
+
+  main.innerHTML = `
+    <div class="section active">
+      <div class="section-header">
+        <span class="section-icon">⭐</span>
+        <span class="section-title">Favourites</span>
+        <span class="section-count">${count} saved</span>
+      </div>
+      <div class="phrase-grid" id="phraseGrid">
+        ${favPhrases.length ? favPhrases.map((item, i) => renderFavCard(item, i)).join('') : `
+          <div class="fav-empty">
+            <span class="fav-empty-star">★</span>
+            No favourites yet — tap the star on any phrase card to save it here.
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function renderFavCard(item, i) {
+  const { sectionId, sectionTitle, sectionIcon, phrase: p, origIdx } = item;
+  const key = `fav_${i}`;
+  const isFlipped = flipped[key];
+  const prons = pronCache[sectionId];
+  const pron = prons ? prons[origIdx] : null;
+  const pronHTML = isFlipped && pron ? `<div class="card-pron">🔊 ${pron}</div>` : '';
+  const favKey = getFavKey(sectionId, p.it);
+  return `
+    <div class="card ${isFlipped ? 'flipped' : ''}" onclick="flipFavCard(${i})">
+      <button class="card-star starred" data-section="${sectionId}" data-it="${p.it.replace(/"/g,'&quot;')}"
+        onclick="toggleFavourite('${sectionId}', ${JSON.stringify(p.it)}, event)"
+        title="Remove from favourites">★</button>
+      <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
+      <div class="card-section-label">${sectionIcon} ${sectionTitle}</div>
+      <div class="card-italian">${p.it}</div>
+      <div class="card-english">${isFlipped ? p.en : '···'}</div>
+      ${pronHTML}
+      ${p.note && isFlipped ? `<div class="card-note">ℹ ${p.note}</div>` : ''}
+    </div>
+  `;
+}
+
+function flipFavCard(i) {
+  const key = `fav_${i}`;
+  flipped[key] = !flipped[key];
+  const grid = document.getElementById('phraseGrid');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.card');
+  if (!cards[i]) return;
+
+  // Rebuild favourites list to get phrase info
+  const favPhrases = [];
+  sections.forEach(sec => {
+    sec.phrases.forEach((p, idx) => {
+      if (favourites.has(getFavKey(sec.id, p.it))) {
+        favPhrases.push({ sectionId: sec.id, phrase: p, origIdx: idx });
+      }
+    });
+  });
+
+  const item = favPhrases[i];
+  if (!item) return;
+  const { sectionId, phrase: p, origIdx } = item;
+  const card = cards[i];
+  const isFlipped = flipped[key];
+
+  card.className = `card ${isFlipped ? 'flipped' : ''}`;
+  card.querySelector('.card-flip-hint').textContent = isFlipped ? '↩ back' : 'tap to reveal';
+  card.querySelector('.card-english').textContent = isFlipped ? p.en : '···';
+
+  const existingPron = card.querySelector('.card-pron');
+  if (existingPron) existingPron.remove();
+  if (isFlipped) {
+    const prons = pronCache[sectionId];
+    if (prons && prons[origIdx]) {
+      const pronEl = document.createElement('div');
+      pronEl.className = 'card-pron';
+      pronEl.textContent = '🔊 ' + prons[origIdx];
+      card.querySelector('.card-english').insertAdjacentElement('afterend', pronEl);
+    }
+  }
+
+  const noteEl = card.querySelector('.card-note');
+  if (isFlipped && p.note) {
+    if (!noteEl) {
+      const note = document.createElement('div');
+      note.className = 'card-note';
+      note.textContent = 'ℹ ' + p.note;
+      card.appendChild(note);
+    }
+  } else if (noteEl) {
+    noteEl.remove();
+  }
+}
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 
@@ -1184,6 +1372,22 @@ function loadPronunciations(sectionId) {
   }
 }
 
+function buildNav() {
+  const nav = document.getElementById('navInner');
+  const favCount = favourites.size;
+  const allSections = [
+    { id: 'favourites', icon: '⭐', title: `Favourites${favCount ? ' ('+favCount+')' : ''}` },
+    ...sections,
+    { id: 'quiz', icon: '✏️', title: 'Quiz' }
+  ];
+  nav.innerHTML = allSections.map(s => `
+    <button class="nav-btn ${s.id === currentSection ? 'active' : ''}"
+            onclick="switchSection('${s.id}')">
+      ${s.icon} ${s.title}
+    </button>
+  `).join('');
+}
+
 function switchSection(id) {
   currentSection = id;
   searchQuery = '';
@@ -1192,6 +1396,14 @@ function switchSection(id) {
   buildNav();
   if (id === 'quiz') {
     renderQuizIntro();
+  } else if (id === 'favourites') {
+    renderFavourites();
+    // Pre-load prons for all sections that have favourites
+    sections.forEach(sec => {
+      if ([...favourites].some(k => k.startsWith(sec.id + '::'))) {
+        loadPronunciations(sec.id);
+      }
+    });
   } else {
     renderSection();
     loadPronunciations(id);
@@ -1256,8 +1468,14 @@ function renderCard(p, i) {
   const prons = pronCache[currentSection];
   const pron = prons ? prons[i] : null;
   const pronHTML = isFlipped && pron ? `<div class="card-pron">🔊 ${pron}</div>` : '';
+  const favKey = getFavKey(currentSection, p.it);
+  const isStarred = favourites.has(favKey);
   return `
     <div class="card ${isFlipped ? 'flipped' : ''}" onclick="flipCard(${i})">
+      <button class="card-star ${isStarred ? 'starred' : ''}"
+        data-section="${currentSection}" data-it="${p.it.replace(/"/g,'&quot;')}"
+        onclick="toggleFavourite('${currentSection}', ${JSON.stringify(p.it)}, event)"
+        title="${isStarred ? 'Remove from favourites' : 'Add to favourites'}">★</button>
       <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
       <div class="card-italian">${p.it}</div>
       <div class="card-english">${isFlipped ? p.en : '···'}</div>
@@ -1456,8 +1674,8 @@ function submitQuiz() {
 // ── INIT ─────────────────────────────────────────────────────────────────────
 
 buildNav();
-renderSection();
-loadPronunciations(currentSection);
+renderFavourites();
+loadPronunciations('essentials');
 </script>
 </body>
 </html>
