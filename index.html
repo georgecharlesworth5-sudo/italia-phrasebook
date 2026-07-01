@@ -226,7 +226,7 @@
     background: var(--warm-white);
     border: 1px solid var(--sand);
     border-radius: 6px;
-    padding: 1.25rem 2rem 2rem 1.25rem;
+    padding: 1.25rem 2rem 1.25rem 1.25rem;
     cursor: pointer;
     transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
     position: relative;
@@ -274,6 +274,8 @@
     line-height: 1.4;
     transition: color 0.2s;
   }
+
+  .card-english:empty { display: none; }
 
   .card.flipped .card-english {
     color: var(--cream);
@@ -337,22 +339,21 @@
 
   /* SPEAK BUTTON */
   .card-speak {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 0.6rem;
+    display: inline-block;
+    margin-top: 1rem;
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     line-height: 1;
     padding: 0.1rem;
-    opacity: 0.25;
+    opacity: 0.3;
     transition: opacity 0.15s, transform 0.15s;
     z-index: 2;
   }
   .card-speak:hover { opacity: 0.8; transform: scale(1.15); }
-  .card-speak.speaking { opacity: 1; color: var(--terracotta); }
-  .card.flipped .card-speak { opacity: 0.4; }
+  .card-speak.speaking { opacity: 1; }
+  .card.flipped .card-speak { opacity: 0.5; }
   .card.flipped .card-speak:hover { opacity: 0.9; }
 
   .card-section-label {
@@ -1099,16 +1100,15 @@ function renderFavCard(item, i) {
       <button class="card-star starred" data-section="${sectionId}" data-it="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="toggleFavourite(this, event)"
         title="Remove from favourites">★</button>
+      <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
+      <div class="card-section-label">${sectionIcon} ${sectionTitle}</div>
+      <div class="card-italian">${p.it}</div>
+      <div class="card-english">${isFlipped ? p.en : ''}</div>
+      ${pronHTML}
       <button class="card-speak"
         data-speak="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="speakPhrase(this.dataset.speak, this, event)"
         title="Listen">🔈</button>
-      <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
-      <div class="card-section-label">${sectionIcon} ${sectionTitle}</div>
-      <div class="card-italian">${p.it}</div>
-      <div class="card-english">${isFlipped ? p.en : '···'}</div>
-      ${pronHTML}
-      ${p.note && isFlipped ? `<div class="card-note">ℹ ${p.note}</div>` : ''}
     </div>
   `;
 }
@@ -1139,7 +1139,7 @@ function flipFavCard(i) {
 
   card.className = `card ${isFlipped ? 'flipped' : ''}`;
   card.querySelector('.card-flip-hint').textContent = isFlipped ? '↩ back' : 'tap to reveal';
-  card.querySelector('.card-english').textContent = isFlipped ? p.en : '···';
+  card.querySelector('.card-english').textContent = isFlipped ? p.en : '';
 
   const existingPron = card.querySelector('.card-pron');
   if (existingPron) existingPron.remove();
@@ -1151,18 +1151,6 @@ function flipFavCard(i) {
       pronEl.textContent = '🔊 ' + prons[origIdx];
       card.querySelector('.card-english').insertAdjacentElement('afterend', pronEl);
     }
-  }
-
-  const noteEl = card.querySelector('.card-note');
-  if (isFlipped && p.note) {
-    if (!noteEl) {
-      const note = document.createElement('div');
-      note.className = 'card-note';
-      note.textContent = 'ℹ ' + p.note;
-      card.appendChild(note);
-    }
-  } else if (noteEl) {
-    noteEl.remove();
   }
 }
 
@@ -1506,15 +1494,14 @@ function renderCard(p, i) {
         data-section="${currentSection}" data-it="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="toggleFavourite(this, event)"
         title="${isStarred ? 'Remove from favourites' : 'Add to favourites'}">★</button>
+      <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
+      <div class="card-italian">${p.it}</div>
+      <div class="card-english">${isFlipped ? p.en : ''}</div>
+      ${pronHTML}
       <button class="card-speak"
         data-speak="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="speakPhrase(this.dataset.speak, this, event)"
         title="Listen">🔈</button>
-      <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
-      <div class="card-italian">${p.it}</div>
-      <div class="card-english">${isFlipped ? p.en : '···'}</div>
-      ${pronHTML}
-      ${p.note && isFlipped ? `<div class="card-note">ℹ ${p.note}</div>` : ''}
     </div>
   `;
 }
@@ -1543,7 +1530,7 @@ function flipCard(i) {
       const isFlipped = flipped[key];
       card.className = `card ${isFlipped ? 'flipped' : ''}`;
       card.querySelector('.card-flip-hint').textContent = isFlipped ? '↩ back' : 'tap to reveal';
-      card.querySelector('.card-english').textContent = isFlipped ? p.en : '···';
+      card.querySelector('.card-english').textContent = isFlipped ? p.en : '';
 
       // Pronunciation
       const existingPron = card.querySelector('.card-pron, .card-pron-loading');
@@ -1556,19 +1543,6 @@ function flipCard(i) {
           pronEl.textContent = '🔊 ' + prons[origIdx];
           card.querySelector('.card-english').insertAdjacentElement('afterend', pronEl);
         }
-      }
-
-      // Note
-      const noteEl = card.querySelector('.card-note');
-      if (isFlipped && p.note) {
-        if (!noteEl) {
-          const note = document.createElement('div');
-          note.className = 'card-note';
-          note.textContent = 'ℹ ' + p.note;
-          card.appendChild(note);
-        }
-      } else if (noteEl) {
-        noteEl.remove();
       }
     }
   }
