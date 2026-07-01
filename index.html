@@ -226,7 +226,7 @@
     background: var(--warm-white);
     border: 1px solid var(--sand);
     border-radius: 6px;
-    padding: 1.25rem 1.25rem 1rem;
+    padding: 1.25rem 2rem 2rem 1.25rem;
     cursor: pointer;
     transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
     position: relative;
@@ -301,14 +301,6 @@
   }
 
   .card.flipped .card-pron { color: var(--stone); }
-
-  .card-pron-loading {
-    margin-top: 0.35rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--stone);
-    font-style: italic;
-  }
 
   .card-flip-hint {
     position: absolute;
@@ -388,29 +380,6 @@
     opacity: 0.3;
   }
 
-
-  .tag-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .tag-chip {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.75rem;
-    border: 1px solid var(--sand);
-    border-radius: 20px;
-    background: transparent;
-    color: var(--stone);
-    cursor: pointer;
-    transition: all 0.18s;
-  }
-  .tag-chip:hover { border-color: var(--terracotta); color: var(--terracotta); }
-  .tag-chip.active { background: var(--terracotta); border-color: var(--terracotta); color: white; }
 
   /* FOOTER TIP */
   .study-tip {
