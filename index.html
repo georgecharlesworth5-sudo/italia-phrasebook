@@ -1005,26 +1005,22 @@ function getFavKey(sectionId, phraseIt) {
   return `${sectionId}::${phraseIt}`;
 }
 
-function toggleFavourite(sectionId, phraseIt, event) {
+function toggleFavourite(btn, event) {
   event.stopPropagation();
+  const sectionId = btn.dataset.section;
+  const phraseIt = btn.dataset.it;
   const key = getFavKey(sectionId, phraseIt);
   if (favourites.has(key)) {
     favourites.delete(key);
+    btn.classList.remove('starred');
+    btn.title = 'Add to favourites';
   } else {
     favourites.add(key);
+    btn.classList.add('starred');
+    btn.title = 'Remove from favourites';
   }
   saveFavourites();
-  // Update star in DOM without re-rendering whole section
-  const grid = document.getElementById('phraseGrid');
-  if (grid) {
-    grid.querySelectorAll('.card-star').forEach(btn => {
-      if (btn.dataset.it === phraseIt && btn.dataset.section === sectionId) {
-        btn.classList.toggle('starred', favourites.has(key));
-        btn.title = favourites.has(key) ? 'Remove from favourites' : 'Add to favourites';
-      }
-    });
-  }
-  // If on favourites page, re-render
+  buildNav(); // update count in nav
   if (currentSection === 'favourites') renderFavourites();
 }
 
@@ -1070,8 +1066,8 @@ function renderFavCard(item, i) {
   const favKey = getFavKey(sectionId, p.it);
   return `
     <div class="card ${isFlipped ? 'flipped' : ''}" onclick="flipFavCard(${i})">
-      <button class="card-star starred" data-section="${sectionId}" data-it="${p.it.replace(/"/g,'&quot;')}"
-        onclick="toggleFavourite('${sectionId}', ${JSON.stringify(p.it)}, event)"
+      <button class="card-star starred" data-section="${sectionId}" data-it="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
+        onclick="toggleFavourite(this, event)"
         title="Remove from favourites">★</button>
       <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
       <div class="card-section-label">${sectionIcon} ${sectionTitle}</div>
@@ -1473,8 +1469,8 @@ function renderCard(p, i) {
   return `
     <div class="card ${isFlipped ? 'flipped' : ''}" onclick="flipCard(${i})">
       <button class="card-star ${isStarred ? 'starred' : ''}"
-        data-section="${currentSection}" data-it="${p.it.replace(/"/g,'&quot;')}"
-        onclick="toggleFavourite('${currentSection}', ${JSON.stringify(p.it)}, event)"
+        data-section="${currentSection}" data-it="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
+        onclick="toggleFavourite(this, event)"
         title="${isStarred ? 'Remove from favourites' : 'Add to favourites'}">★</button>
       <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
       <div class="card-italian">${p.it}</div>
