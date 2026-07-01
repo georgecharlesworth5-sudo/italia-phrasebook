@@ -343,6 +343,26 @@
   .card.flipped .card-star { opacity: 0.4; }
   .card.flipped .card-star.starred { opacity: 1; }
 
+  /* SPEAK BUTTON */
+  .card-speak {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    line-height: 1;
+    padding: 0.1rem;
+    opacity: 0.25;
+    transition: opacity 0.15s, transform 0.15s;
+    z-index: 2;
+  }
+  .card-speak:hover { opacity: 0.8; transform: scale(1.15); }
+  .card-speak.speaking { opacity: 1; color: var(--terracotta); }
+  .card.flipped .card-speak { opacity: 0.4; }
+  .card.flipped .card-speak:hover { opacity: 0.9; }
+
   .card-section-label {
     font-family: 'DM Mono', monospace;
     font-size: 0.58rem;
@@ -993,6 +1013,47 @@ let quizSubmitted = false;
 // Pronunciation cache: { sectionId: [pron strings] }
 const pronCache = {};
 
+// ── SPEECH ───────────────────────────────────────────────────────────────────
+
+let italianVoice = null;
+
+function loadVoices() {
+  const voices = window.speechSynthesis.getVoices();
+  italianVoice = voices.find(v => v.lang.startsWith('it')) || null;
+}
+
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+}
+
+function speakPhrase(text, btn, event) {
+  event.stopPropagation();
+  if (!window.speechSynthesis) return;
+
+  // If already speaking this phrase, cancel it
+  if (btn.classList.contains('speaking')) {
+    window.speechSynthesis.cancel();
+    btn.classList.remove('speaking');
+    return;
+  }
+
+  // Cancel any other speech
+  window.speechSynthesis.cancel();
+  document.querySelectorAll('.card-speak.speaking').forEach(b => b.classList.remove('speaking'));
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'it-IT';
+  utterance.rate = 0.85;
+  if (italianVoice) utterance.voice = italianVoice;
+
+  btn.classList.add('speaking');
+  utterance.onend = () => btn.classList.remove('speaking');
+  utterance.onerror = () => btn.classList.remove('speaking');
+
+  window.speechSynthesis.speak(utterance);
+}
+
 // ── FAVOURITES ────────────────────────────────────────────────────────────────
 
 let favourites = new Set(JSON.parse(localStorage.getItem('puglia_favs') || '[]'));
@@ -1069,6 +1130,10 @@ function renderFavCard(item, i) {
       <button class="card-star starred" data-section="${sectionId}" data-it="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="toggleFavourite(this, event)"
         title="Remove from favourites">★</button>
+      <button class="card-speak"
+        data-speak="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
+        onclick="speakPhrase(this.dataset.speak, this, event)"
+        title="Listen">🔈</button>
       <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
       <div class="card-section-label">${sectionIcon} ${sectionTitle}</div>
       <div class="card-italian">${p.it}</div>
@@ -1472,6 +1537,10 @@ function renderCard(p, i) {
         data-section="${currentSection}" data-it="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="toggleFavourite(this, event)"
         title="${isStarred ? 'Remove from favourites' : 'Add to favourites'}">★</button>
+      <button class="card-speak"
+        data-speak="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
+        onclick="speakPhrase(this.dataset.speak, this, event)"
+        title="Listen">🔈</button>
       <span class="card-flip-hint">${isFlipped ? '↩ back' : 'tap to reveal'}</span>
       <div class="card-italian">${p.it}</div>
       <div class="card-english">${isFlipped ? p.en : '···'}</div>
