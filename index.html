@@ -95,47 +95,86 @@
     animation: fadeUp 0.7s ease forwards 0.55s;
   }
 
-  /* NAV */
+  /* NAV DROPDOWN */
   nav {
     background: var(--warm-white);
     border-bottom: 1px solid var(--sand);
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 0 1rem;
-    overflow-x: auto;
-    scrollbar-width: none;
   }
-  nav::-webkit-scrollbar { display: none; }
 
-  .nav-inner {
+  .nav-toggle {
     display: flex;
-    gap: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
     max-width: 1100px;
     margin: 0 auto;
-    white-space: nowrap;
   }
 
-  .nav-btn {
-    background: none;
-    border: none;
-    padding: 0.9rem 1.1rem;
+  .nav-current {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
+    font-size: 0.68rem;
     letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .nav-current-icon { font-size: 1rem; }
+
+  .nav-arrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--stone);
+    transition: transform 0.2s;
+  }
+  .nav-arrow.open { transform: rotate(180deg); }
+
+  .nav-dropdown {
+    display: none;
+    background: var(--warm-white);
+    border-top: 1px solid var(--sand);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .nav-dropdown.open { display: block; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.9rem 1.25rem;
+    border: none;
+    background: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--stone);
     cursor: pointer;
-    transition: color 0.2s, border-bottom 0.2s;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
+    text-align: left;
+    border-bottom: 1px solid var(--terracotta-pale);
+    transition: background 0.15s, color 0.15s;
   }
+  .nav-item:last-child { border-bottom: none; }
+  .nav-item:hover { background: var(--cream); color: var(--ink); }
+  .nav-item.active {
+    color: var(--ink);
+    background: var(--terracotta-pale);
+    font-weight: 500;
+  }
+  .nav-item-icon { font-size: 1.1rem; }
+  .nav-item-label { flex: 1; }
+  .nav-item-tick { color: var(--ink); font-size: 0.7rem; }
 
-  .nav-btn:hover { color: var(--terracotta); }
-  .nav-btn.active {
-    color: var(--terracotta);
-    border-bottom-color: var(--terracotta);
-  }
 
   /* MAIN LAYOUT */
   main {
@@ -562,13 +601,6 @@
     .header-sub { font-size: 0.85rem; }
     .header-rule { margin-top: 1rem; }
 
-    /* Nav — larger tap targets */
-    .nav-btn {
-      font-size: 0.58rem;
-      padding: 0.85rem 0.7rem;
-      letter-spacing: 0.08em;
-    }
-
     /* Main padding */
     main { padding: 1.5rem 1rem 3rem; }
 
@@ -612,7 +644,14 @@
 </header>
 
 <nav>
-  <div class="nav-inner" id="navInner"></div>
+  <div class="nav-toggle" onclick="toggleNav()" id="navToggle">
+    <span class="nav-current" id="navCurrent">
+      <span class="nav-current-icon" id="navCurrentIcon">⭐</span>
+      <span id="navCurrentLabel">Favourites</span>
+    </span>
+    <span class="nav-arrow" id="navArrow">▾</span>
+  </div>
+  <div class="nav-dropdown" id="navDropdown"></div>
 </nav>
 
 <main id="main"></main>
@@ -1502,18 +1541,39 @@ function loadPronunciations(sectionId) {
   }
 }
 
+let navOpen = false;
+
+function toggleNav() {
+  navOpen = !navOpen;
+  document.getElementById('navDropdown').classList.toggle('open', navOpen);
+  document.getElementById('navArrow').classList.toggle('open', navOpen);
+}
+
+function closeNav() {
+  navOpen = false;
+  document.getElementById('navDropdown').classList.remove('open');
+  document.getElementById('navArrow').classList.remove('open');
+}
+
 function buildNav() {
-  const nav = document.getElementById('navInner');
-  const favCount = favourites.size;
   const allSections = [
-    { id: 'favourites', icon: '⭐', title: `Favourites${favCount ? ' ('+favCount+')' : ''}` },
+    { id: 'favourites', icon: '⭐', title: `Favourites${favourites.size ? ' (' + favourites.size + ')' : ''}` },
     ...sections,
     { id: 'quiz', icon: '✏️', title: 'Quiz' }
   ];
-  nav.innerHTML = allSections.map(s => `
-    <button class="nav-btn ${s.id === currentSection ? 'active' : ''}"
+
+  // Update the current section display
+  const current = allSections.find(s => s.id === currentSection) || allSections[0];
+  document.getElementById('navCurrentIcon').textContent = current.icon;
+  document.getElementById('navCurrentLabel').textContent = current.title;
+
+  // Build dropdown items
+  document.getElementById('navDropdown').innerHTML = allSections.map(s => `
+    <button class="nav-item ${s.id === currentSection ? 'active' : ''}"
             onclick="switchSection('${s.id}')">
-      ${s.icon} ${s.title}
+      <span class="nav-item-icon">${s.icon}</span>
+      <span class="nav-item-label">${s.title}</span>
+      ${s.id === currentSection ? '<span class="nav-item-tick">✓</span>' : ''}
     </button>
   `).join('');
 }
@@ -1523,12 +1583,12 @@ function switchSection(id) {
   searchQuery = '';
   activeTag = 'all';
   flipped = {};
+  closeNav();
   buildNav();
   if (id === 'quiz') {
     renderQuizIntro();
   } else if (id === 'favourites') {
     renderFavourites();
-    // Pre-load prons for all sections that have favourites
     sections.forEach(sec => {
       if ([...favourites].some(k => k.startsWith(sec.id + '::'))) {
         loadPronunciations(sec.id);
