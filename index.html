@@ -1042,8 +1042,10 @@ function loadVoices() {
 }
 
 if (window.speechSynthesis) {
-  window.speechSynthesis.onvoiceschanged = loadVoices;
-  loadVoices();
+  try {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+  } catch(e) {}
 }
 
 function speakPhrase(text, btn, event) {
@@ -1075,11 +1077,23 @@ function speakPhrase(text, btn, event) {
 
 // ── FAVOURITES ────────────────────────────────────────────────────────────────
 
-let favourites = new Set(JSON.parse(localStorage.getItem('puglia_favs') || '[]'));
+function loadFavourites() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem('puglia_favs') || '[]'));
+  } catch(e) {
+    return new Set();
+  }
+}
 
 function saveFavourites() {
-  localStorage.setItem('puglia_favs', JSON.stringify([...favourites]));
+  try {
+    localStorage.setItem('puglia_favs', JSON.stringify([...favourites]));
+  } catch(e) {
+    // localStorage not available — favourites won't persist this session
+  }
 }
+
+let favourites = loadFavourites();
 
 function getFavKey(sectionId, phraseIt) {
   return `${sectionId}::${phraseIt}`;
