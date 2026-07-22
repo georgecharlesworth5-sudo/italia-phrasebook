@@ -1367,19 +1367,49 @@ function normalise(str) {
     .trim();
 }
 
+function expandContractions(str) {
+  return str
+    .replace(/what's/gi, 'what is')
+    .replace(/it's/gi, 'it is')
+    .replace(/there's/gi, 'there is')
+    .replace(/that's/gi, 'that is')
+    .replace(/where's/gi, 'where is')
+    .replace(/how's/gi, 'how is')
+    .replace(/who's/gi, 'who is')
+    .replace(/don't/gi, 'do not')
+    .replace(/doesn't/gi, 'does not')
+    .replace(/can't/gi, 'cannot')
+    .replace(/won't/gi, 'will not')
+    .replace(/isn't/gi, 'is not')
+    .replace(/aren't/gi, 'are not')
+    .replace(/i'm/gi, 'i am')
+    .replace(/i've/gi, 'i have')
+    .replace(/i'll/gi, 'i will')
+    .replace(/you're/gi, 'you are')
+    .replace(/we're/gi, 'we are')
+    .replace(/they're/gi, 'they are')
+    .replace(/he's/gi, 'he is')
+    .replace(/she's/gi, 'she is');
+}
+
+function wordOverlap(a, b) {
+  const wordsA = a.split(' ').filter(w => w.length > 2);
+  const wordsB = new Set(b.split(' ').filter(w => w.length > 2));
+  if (wordsA.length === 0) return 0;
+  return wordsA.filter(w => wordsB.has(w)).length / wordsA.length;
+}
+
 function isAnswerCorrect(userRaw, correctRaw) {
   if (!userRaw || userRaw.trim() === '') return false;
-  const user = normalise(userRaw);
-  const correct = normalise(correctRaw);
-
-  // Exact full match
+  const user = normalise(expandContractions(userRaw));
+  const correct = normalise(expandContractions(correctRaw));
   if (user === correct) return true;
-
-  // Match any single alternative (split on " / ")
   const alts = correct.split(' / ').map(a => a.trim());
   return alts.some(alt => {
     if (alt === user) return true;
     if (alt.length > 3 && (alt.includes(user) || user.includes(alt))) return true;
+    // Accept if 80%+ of significant words match in either direction
+    if (wordOverlap(user, alt) >= 0.8 || wordOverlap(alt, user) >= 0.8) return true;
     return false;
   });
 }
