@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puglia Phrase Bank</title>
+<title>Italiano</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -657,13 +657,15 @@
   .nav-sub { font-size: 0.58rem; letter-spacing: 0.08em; color: var(--stone); text-transform: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .nav-bar .nav-current { min-width: 0; }
   .nav-bar .nav-arrow { margin-left: 0.4rem; }
+  .nav-book { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0.85rem 1.25rem; border: none; border-bottom: 1px solid var(--terracotta-pale); background: var(--cream); font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); cursor: pointer; }
+  .nav-book + .nav-item { padding-left: 2.25rem; }
+  .nav-item + .nav-item { padding-left: 2.25rem; }
 </style>
 </head>
 <body>
 
 <header>
-  <p class="header-label">Puglia · August 2026</p>
-  <h1>il mio <em>frasario</em></h1>
+  <h1>Italiano</h1>
   <p class="header-sub">A personal phrase bank for your Italian adventure</p>
   <div class="header-rule"></div>
 </header>
@@ -680,7 +682,7 @@
     <div class="nav-toggle" id="navToggle-book" onclick="toggleNav('book')">
       <span class="nav-current">
         <span class="nav-current-icon">📖</span>
-        <span class="nav-text"><span class="nav-group">Book</span><span class="nav-sub" id="navSub-book">Pinocchio</span></span>
+        <span class="nav-text"><span class="nav-group">Book</span><span class="nav-sub" id="navSub-book">Chapters</span></span>
       </span>
       <span class="nav-arrow" id="navArrow-book">▾</span>
     </div>
@@ -1265,6 +1267,7 @@ const sections = [
     id: "pinocchio",
     icon: "📖",
     group: "book",
+    book: "Pinocchio",
     title: "Pinocchio · Capitolo I",
     unit: "lines",
     reading: true,
@@ -1328,6 +1331,7 @@ const sections = [
     id: "pinocchio2",
     icon: "📖",
     group: "book",
+    book: "Pinocchio",
     title: "Pinocchio · Capitolo II",
     unit: "lines",
     reading: true,
@@ -1400,6 +1404,7 @@ const sections = [
     id: "pinocchio3",
     icon: "📖",
     group: "book",
+    book: "Pinocchio",
     title: "Pinocchio · Capitolo III",
     unit: "lines",
     reading: true,
@@ -1500,6 +1505,74 @@ const sections = [
       { it: "Dovevo pensarci prima!... —", en: "I should have thought of it sooner!...”", note: "dovevo pensarci — I should have thought of it" },
       { it: "Quello che accadde dopo, è una storia così strana, da non potersi quasi credere,", en: "What happened next is a story so strange that it can hardly be believed,", note: "accadde — happened (passato remoto of accadere) | così strana da non potersi credere — so strange as to be unbelievable | quasi — almost" },
       { it: "e ve la racconterò in quest'altri capitoli.", en: "and I will tell it to you in these next chapters.", note: "ve la racconterò — I will tell it to you (ve = a voi, la = the story) | quest'altri — these other (old form of questi altri)" },
+    ]
+  },
+  {
+    id: "principe1",
+    icon: "📖",
+    group: "book",
+    book: "Il Piccolo Principe",
+    title: "Il Piccolo Principe · Capitolo 1",
+    unit: "lines",
+    reading: true,
+    showNotes: true,
+    noQuiz: true,
+    tip: "A simple A2 retelling in my own words, not Saint-Exupéry's text. Short sentences, passato prossimo and imperfetto. A gentle first step before reading a real Italian novel. Tap a line for the English and word notes.",
+    phrases: [
+      { it: "Quando avevo sei anni, ho visto un disegno in un libro sugli animali.", en: "When I was six, I saw a picture in a book about animals.", note: "avevo — I had (imperfetto of avere) | ho visto — I saw (passato prossimo) | sugli — about the (su + gli)" },
+      { it: "Nel disegno, un grande serpente mangiava un animale.", en: "In the picture, a big snake was eating an animal.", note: "serpente — snake | mangiava — was eating (imperfetto)" },
+      { it: "Il libro diceva: \"Il serpente mangia tutto l'animale e poi dorme per sei mesi.\"", en: "The book said: \"The snake eats the whole animal and then sleeps for six months.\"", note: "diceva — said, was saying | tutto — whole, all of | poi — then, afterwards | dorme — sleeps (dormire)" },
+      { it: "Ho pensato molto a questo disegno.", en: "I thought a lot about this picture.", note: "ho pensato — I thought | molto — a lot | pensare a — to think about" },
+      { it: "Poi ho preso una matita colorata e ho fatto il mio primo disegno.", en: "Then I took a coloured pencil and made my first drawing.", note: "matita — pencil | ho preso — I took (prendere) | ho fatto — I made (fare) | primo — first" },
+      { it: "L'ho mostrato agli adulti e ho chiesto: \"Avete paura?\"", en: "I showed it to the grown-ups and asked: \"Are you scared?\"", note: "l'ho mostrato — I showed it | agli adulti — to the adults (a + gli) | avere paura — to be afraid" },
+      { it: "Gli adulti hanno risposto: \"Paura? Perché dobbiamo avere paura di un cappello?\"", en: "The grown-ups answered: \"Scared? Why should we be afraid of a hat?\"", note: "hanno risposto — they answered (rispondere) | dobbiamo — we must, we should | cappello — hat" },
+      { it: "Ma il mio disegno non era un cappello. Era un serpente con un elefante nella pancia.", en: "But my drawing wasn't a hat. It was a snake with an elephant in its belly.", note: "era — it was | pancia — belly, stomach | nella — in the (in + la)" },
+      { it: "Allora ho fatto un secondo disegno per gli adulti: si vedeva l'interno del serpente.", en: "So I made a second drawing for the grown-ups: you could see the inside of the snake.", note: "allora — so, then | si vedeva — you could see | interno — inside" },
+      { it: "Gli adulti mi hanno detto: \"Lascia stare i serpenti. Studia la geografia, la storia e la matematica.\"", en: "The grown-ups told me: \"Leave the snakes alone. Study geography, history and maths.\"", note: "mi hanno detto — they told me (dire) | lascia stare — leave alone (imperative, tu) | studia — study (imperative, tu)" },
+      { it: "Così, a sei anni, non sono diventato pittore.", en: "So, at six, I didn't become a painter.", note: "così — so, in this way | sono diventato — I became (diventare takes essere) | pittore — painter" },
+      { it: "Da grande, ho imparato a guidare gli aerei e sono diventato pilota.", en: "When I grew up, I learned to fly planes and became a pilot.", note: "da grande — as an adult, when grown up | ho imparato a — I learned to | guidare — to drive, here: to fly | aereo — aeroplane" },
+      { it: "Ho viaggiato in tutto il mondo e la geografia mi è stata molto utile.", en: "I travelled all over the world and geography was very useful to me.", note: "ho viaggiato — I travelled | in tutto il mondo — all over the world | utile — useful" },
+      { it: "Ho incontrato molte persone serie, ma non mi sono piaciute molto.", en: "I met many serious people, but I didn't like them much.", note: "ho incontrato — I met | serie — serious (plural feminine) | non mi sono piaciute — I didn't like them (piacere)" },
+      { it: "Quando incontravo una persona intelligente, le mostravo il mio primo disegno.", en: "Whenever I met an intelligent person, I showed her my first drawing.", note: "incontravo — I used to meet (imperfetto) | le mostravo — I used to show her | intelligente — intelligent, clever" },
+      { it: "Ma tutti rispondevano: \"È un cappello.\"", en: "But everyone answered: \"It's a hat.\"", note: "tutti — everyone | rispondevano — they used to answer" },
+      { it: "Allora non parlavo più di serpenti, di foreste o di stelle. Parlavo di cose normali.", en: "So I no longer talked about snakes, forests or stars. I talked about ordinary things.", note: "non… più — no longer | parlavo di — I used to talk about | stelle — stars | normali — ordinary, normal" },
+      { it: "E gli adulti erano contenti di conoscere un uomo così ragionevole.", en: "And the grown-ups were happy to know such a sensible man.", note: "contenti — pleased, happy | conoscere — to get to know | ragionevole — sensible, reasonable" },
+    ]
+  },
+  {
+    id: "principe2",
+    icon: "📖",
+    group: "book",
+    book: "Il Piccolo Principe",
+    title: "Il Piccolo Principe · Capitolo 2",
+    unit: "lines",
+    reading: true,
+    showNotes: true,
+    noQuiz: true,
+    tip: "Chapter two in simple A2 Italian, again my own retelling: the crash in the desert, the little voice and the drawing of the sheep. Notice how often a + infinitive and double verbs (ho fatto, ho provato) appear.",
+    phrases: [
+      { it: "Così ho vissuto da solo, senza un vero amico, fino a sei anni fa.", en: "So I lived alone, without a real friend, until six years ago.", note: "da solo — alone, on my own | senza — without | fino a — until | sei anni fa — six years ago" },
+      { it: "Un giorno ho avuto un problema con il mio aereo nel deserto del Sahara.", en: "One day I had a problem with my plane in the Sahara desert.", note: "un giorno — one day | deserto — desert | problema — problem (masculine, ends in -a)" },
+      { it: "Ero solo, molto lontano da ogni casa e da ogni persona.", en: "I was alone, very far from every house and every person.", note: "lontano da — far from | ogni — every (never changes)" },
+      { it: "Il motore era rotto e avevo acqua per otto giorni.", en: "The engine was broken and I had water for eight days.", note: "motore — engine | rotto — broken (rompere) | per otto giorni — for eight days" },
+      { it: "La prima sera mi sono addormentato sulla sabbia.", en: "The first evening I fell asleep on the sand.", note: "mi sono addormentato — I fell asleep | sabbia — sand | sulla — on the (su + la)" },
+      { it: "All'alba una vocina strana mi ha svegliato.", en: "At dawn, a strange little voice woke me up.", note: "alba — dawn | vocina — little voice (-ina = small) | ha svegliato — woke up (svegliare)" },
+      { it: "La voce ha detto: \"Per favore, disegnami una pecora!\"", en: "The voice said: \"Please, draw me a sheep!\"", note: "per favore — please | disegnami — draw for me (disegna + mi) | pecora — sheep" },
+      { it: "Mi sono alzato di scatto e ho guardato intorno.", en: "I jumped to my feet and looked around.", note: "mi sono alzato — I got up | di scatto — suddenly, with a jerk | intorno — around" },
+      { it: "Davanti a me c'era un ragazzino molto piccolo e serio.", en: "In front of me there was a very small, serious little boy.", note: "davanti a — in front of | c'era — there was | ragazzino — little boy (-ino = small)" },
+      { it: "Non sembrava perso, né stanco, né spaventato.", en: "He didn't look lost, or tired, or frightened.", note: "sembrava — he seemed | perso — lost | né… né — neither… nor | spaventato — frightened" },
+      { it: "Ero molto sorpreso. \"Che cosa fai qui?\" gli ho chiesto.", en: "I was very surprised. \"What are you doing here?\" I asked him.", note: "sorpreso — surprised | che cosa fai — what are you doing | gli ho chiesto — I asked him" },
+      { it: "Lui ha ripetuto piano: \"Per favore, disegnami una pecora.\"", en: "He repeated softly: \"Please, draw me a sheep.\"", note: "ripetere — to repeat | piano — softly, slowly" },
+      { it: "Non sapevo disegnare le pecore, così ho fatto il mio vecchio serpente con l'elefante.", en: "I didn't know how to draw sheep, so I drew my old snake with the elephant.", note: "non sapevo — I didn't know how to | vecchio — old | così — so, therefore" },
+      { it: "Il ragazzino ha detto: \"No! Non voglio un elefante dentro un serpente.", en: "The little boy said: \"No! I don't want an elephant inside a snake.", note: "non voglio — I don't want | dentro — inside" },
+      { it: "Il serpente è pericoloso e l'elefante è troppo grande. Voglio una pecora.\"", en: "A snake is dangerous and an elephant is too big. I want a sheep.\"", note: "pericoloso — dangerous | troppo — too (much) | voglio — I want" },
+      { it: "Allora ho disegnato una pecora, ma lui ha detto: \"Questa pecora è molto malata. Fanne un'altra.\"", en: "So I drew a sheep, but he said: \"This sheep is very ill. Make another one.\"", note: "malata — ill, sick | fanne — make (some) of them (fa' + ne) | un'altra — another one" },
+      { it: "Ho fatto un'altra pecora. Lui ha sorriso: \"Questo non è una pecora, è un montone. Ha le corna.\"", en: "I drew another sheep. He smiled: \"That's not a sheep, it's a ram. It has horns.\"", note: "sorridere — to smile | montone — ram (male sheep) | corna — horns" },
+      { it: "Ho provato ancora, ma anche questa pecora era troppo vecchia per lui.", en: "I tried again, but this sheep was too old for him as well.", note: "provare — to try | ancora — again | anche — also, too" },
+      { it: "Ero stanco e avevo fretta di riparare il motore, così ho disegnato una scatola con tre buchi.", en: "I was tired and in a hurry to fix the engine, so I drew a box with three holes.", note: "avere fretta — to be in a hurry | riparare — to repair | scatola — box | buchi — holes" },
+      { it: "Ho detto: \"Questa è la scatola. La tua pecora è dentro.\"", en: "I said: \"This is the box. Your sheep is inside.\"", note: "la tua — your (feminine) | dentro — inside" },
+      { it: "Il viso del ragazzino si è illuminato: \"È proprio quello che volevo!\"", en: "The little boy's face lit up: \"That's exactly what I wanted!\"", note: "viso — face | si è illuminato — lit up | proprio — exactly, just | volevo — I wanted (imperfetto)" },
+      { it: "Così ho conosciuto il Piccolo Principe.", en: "That's how I met the Little Prince.", note: "così — that's how, in this way | ho conosciuto — I met (for the first time)" },
     ]
   }
 ];
@@ -1795,7 +1868,7 @@ function isAnswerCorrect(userRaw, correctRaw) {
 }
 
 function scoreMessage(score) {
-  if (score === 10) return 'Perfetto! You\'re ready for Puglia.';
+  if (score === 10) return 'Perfetto! You\'re ready for Italy.';
   if (score >= 8)  return 'Ottimo! Really impressive.';
   if (score >= 6)  return 'Bene! Solid effort — keep going.';
   if (score >= 4)  return 'Non male. A bit more study needed!';
@@ -2162,6 +2235,7 @@ function loadPronunciations(sectionId) {
 }
 
 let openGroup = null;
+let openBook = null;
 
 function groupOf(id) {
   const sec = sections.find(x => x.id === id);
@@ -2170,6 +2244,7 @@ function groupOf(id) {
 
 function toggleNav(g) {
   openGroup = openGroup === g ? null : g;
+  if (openGroup === 'book' && !openBook) { const cs = sections.find(x => x.id === currentSection); openBook = cs && cs.book ? cs.book : sections.find(x => x.book).book; }
   buildNav();
 }
 
@@ -2180,7 +2255,7 @@ function closeNav() {
 function buildNav() {
   const all = [
     { id: 'favourites', icon: '⭐', title: `Favourites${favourites.size ? ' (' + favourites.size + ')' : ''}`, group: 'phrasebook' },
-    ...sections.map(x => ({ id: x.id, icon: x.icon, title: x.title, group: x.group === 'book' ? 'book' : 'phrasebook' })),
+    ...sections.map(x => ({ id: x.id, icon: x.icon, title: x.title, book: x.book, group: x.group === 'book' ? 'book' : 'phrasebook' })),
     { id: 'quiz', icon: '✏️', title: 'Quiz', group: 'phrasebook' }
   ];
   const cur = all.find(x => x.id === currentSection) || all[0];
@@ -2189,18 +2264,32 @@ function buildNav() {
     document.getElementById('navToggle-' + g).classList.toggle('active', active);
     document.getElementById('navToggle-' + g).classList.toggle('open', openGroup === g);
     document.getElementById('navArrow-' + g).classList.toggle('open', openGroup === g);
-    document.getElementById('navSub-' + g).textContent = active ? cur.title : (g === 'book' ? 'Pinocchio' : 'Sections');
+    document.getElementById('navSub-' + g).textContent = active ? cur.title : (g === 'book' ? 'Chapters' : 'Sections');
   });
   const dd = document.getElementById('navDropdown');
   dd.classList.toggle('open', !!openGroup);
-  dd.innerHTML = openGroup ? all.filter(x => x.group === openGroup).map(x => `
+  const item = x => `
     <button class="nav-item ${x.id === currentSection ? 'active' : ''}"
             onclick="switchSection('${x.id}')">
       <span class="nav-item-icon">${x.icon}</span>
-      <span class="nav-item-label">${x.title}</span>
+      <span class="nav-item-label">${x.book ? x.title.replace(x.book + ' · ', '') : x.title}</span>
       ${x.id === currentSection ? '<span class="nav-item-tick">✓</span>' : ''}
-    </button>
-  `).join('') : '';
+    </button>`;
+  if (openGroup === 'book') {
+    const books = [...new Set(all.filter(x => x.book).map(x => x.book))];
+    dd.innerHTML = books.map(bk => `
+      <button class="nav-book ${openBook === bk ? 'open' : ''}" onclick="toggleBook('${bk.replace(/'/g, "\'")}')">
+        <span>${bk}</span><span class="nav-arrow ${openBook === bk ? 'open' : ''}">▾</span>
+      </button>
+      ${openBook === bk ? all.filter(x => x.book === bk).map(item).join('') : ''}`).join('');
+  } else {
+    dd.innerHTML = openGroup ? all.filter(x => x.group === openGroup).map(item).join('') : '';
+  }
+}
+
+function toggleBook(bk) {
+  openBook = openBook === bk ? null : bk;
+  buildNav();
 }
 
 function switchSection(id) {
