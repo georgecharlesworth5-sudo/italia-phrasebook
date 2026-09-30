@@ -632,6 +632,20 @@
     /* Study tip */
     .study-tip { font-size: 0.85rem; }
   }
+
+  /* READING SECTIONS (Pinocchio) */
+  .phrase-grid.reading { grid-template-columns: 1fr; max-width: 46rem; }
+  .card-wordnotes {
+    margin-top: 0.7rem;
+    padding: 0.6rem 0 0.8rem;
+    border-top: 1px solid #333;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: #b5b5b5;
+    letter-spacing: 0.02em;
+  }
+  .card-wordnotes b { color: var(--cream); font-weight: 400; }
 </style>
 </head>
 <body>
@@ -1226,6 +1240,68 @@ const sections = [
       { it: "Mi fa male qui", en: "It hurts here", note: "Point to the area" },
       { it: "Numero di emergenza europeo: 112", en: "European emergency number: 112", note: "Police, ambulance, fire" },
     ]
+  },
+  {
+    id: "pinocchio",
+    icon: "📖",
+    title: "Pinocchio · Capitolo I",
+    unit: "lines",
+    reading: true,
+    showNotes: true,
+    noQuiz: true,
+    tip: "Collodi's original 1883 Italian, much harder than the rest of the frasario. This is the first part of chapter one, up to the moment Master Cherry's nose turns blue. Read a line, guess, then tap for the English and word notes. Star any line you want to keep.",
+    phrases: [
+      { it: "Come andò che Maestro Ciliegia, falegname trovò un pezzo di legno che piangeva e rideva come un bambino.", en: "How it came about that Master Cherry, a carpenter, found a piece of wood that cried and laughed like a child.", note: "come andò che — how it came about that (a traditional chapter-title formula) | andò — passato remoto of andare | piangeva e rideva — imperfect: was crying and laughing" },
+      { it: "— C'era una volta....", en: "“Once upon a time there was....”", note: "c'era una volta — once upon a time, the classic fairy-tale opening" },
+      { it: "— Un re! — diranno subito i miei piccoli lettori.", en: "“A king!” my young readers will say at once.", note: "diranno — future of dire: they will say | subito — at once, straight away" },
+      { it: "— No, ragazzi, avete sbagliato.", en: "“No, children, you have got it wrong.”", note: "avete sbagliato — you (plural) have made a mistake; sbagliare = to be wrong" },
+      { it: "C'era una volta un pezzo di legno.", en: "Once upon a time there was a piece of wood.", note: "c'era — imperfect of c'è: there was" },
+      { it: "Non era un legno di lusso, ma un semplice pezzo da catasta, di quelli che d'inverno si mettono nelle stufe e nei caminetti per accendere il fuoco e per riscaldare le stanze.", en: "It wasn't luxury wood, but a plain piece of firewood, the kind that in winter people put in stoves and fireplaces to light the fire and warm the rooms.", note: "di lusso — luxury, high-class | catasta — woodpile; pezzo da catasta = ordinary firewood log | di quelli che — the kind that | si mettono — are put (impersonal si: one puts) | stufa / caminetto — stove / small fireplace | riscaldare — to heat, to warm up" },
+      { it: "Non so come andasse, ma il fatto gli è che un bel giorno questo pezzo di legno capitò nella bottega di un vecchio falegname,", en: "I don't know how it happened, but the fact is that one fine day this piece of wood turned up in the workshop of an old carpenter,", note: "andasse — imperfect subjunctive after an indirect question: how it went | il fatto gli è che — the fact is that (old idiom, today il fatto è che) | un bel giorno — one fine day | capitò — passato remoto of capitare: happened to arrive | bottega — small shop or workshop" },
+      { it: "il quale aveva nome mastr'Antonio, se non che tutti lo chiamavano maestro Ciliegia,", en: "who was named Mastro Antonio, except that everyone called him Master Cherry,", note: "il quale — who (formal relative pronoun) | aveva nome — was called, had the name | se non che — except that, only that | mastr'Antonio — older form of maestro Antonio; a title for a master craftsman" },
+      { it: "per via della punta del suo naso, che era sempre lustra e paonazza, come una ciliegia matura.", en: "because of the tip of his nose, which was always shiny and purple-red, like a ripe cherry.", note: "per via di — because of | punta — tip | lustra — shiny, glossy | paonazza — purplish red | matura — ripe" },
+      { it: "Appena maestro Ciliegia ebbe visto quel pezzo di legno, si rallegrò tutto;", en: "As soon as Master Cherry saw that piece of wood, he was filled with joy;", note: "ebbe visto — trapassato remoto: had seen; literary tense used after appena | rallegrarsi — to cheer up, to rejoice | tutto — here: completely" },
+      { it: "e dandosi una fregatina di mani per la contentezza, borbottò a mezza voce:", en: "and rubbing his hands together with delight, he muttered under his breath:", note: "dandosi una fregatina di mani — rubbing his hands (literally giving himself a little rub of the hands) | borbottò — passato remoto of borbottare: muttered | a mezza voce — in a low voice" },
+      { it: "— Questo legno è capitato a tempo; voglio servirmene per fare una gamba di tavolino. —", en: "“This wood has turned up just in time; I want to use it to make a table leg.”", note: "a tempo — in the nick of time, just when needed | servirmene — servirsi di + ne: to make use of it | gamba di tavolino — leg of a small table" },
+      { it: "Detto fatto, prese subito l'ascia arrotata per cominciare a levargli la scorza e a digrossarlo;", en: "No sooner said than done, he immediately took his sharpened axe to start stripping off its bark and roughing it out;", note: "detto fatto — no sooner said than done | ascia — axe | arrotata — sharpened, honed | levargli la scorza — to strip its bark off (gli = from it) | digrossare — to rough-hew, to trim into shape" },
+      { it: "ma quando fu lì per lasciare andare la prima asciata, rimase col braccio sospeso in aria,", en: "but just as he was about to let the first blow of the axe fall, he stopped with his arm hanging in the air,", note: "fu lì per — was on the point of, was about to | asciata — a blow with the axe | rimase — passato remoto of rimanere: stayed | sospeso — suspended" },
+      { it: "perchè sentì una vocina sottile sottile, che disse raccomandandosi:", en: "because he heard a thin, tiny little voice, which said pleadingly:", note: "perchè — old spelling of perché | vocina — little voice (-ina = small, gentle) | sottile sottile — very thin; repeating an adjective makes it stronger | raccomandandosi — begging, imploring (raccomandarsi)" },
+      { it: "— Non mi picchiar tanto forte! —", en: "“Don't hit me so hard!”", note: "picchiar — picchiare with the final -e dropped | tanto forte — so hard" },
+      { it: "Figuratevi come rimase quel buon vecchio di maestro Ciliegia!", en: "Just imagine how that good old Master Cherry felt!", note: "figuratevi — imperative (voi) of figurarsi: imagine | come rimase — how he was left, i.e. how astonished he was" },
+      { it: "Girò gli occhi smarriti intorno alla stanza per vedere di dove mai poteva essere uscita quella vocina, e non vide nessuno!", en: "He turned his bewildered eyes around the room to see where on earth that little voice could have come from, and he saw no one!", note: "smarriti — bewildered, lost | di dove mai — from where on earth (mai adds emphasis) | poteva essere uscita — could have come out | nessuno — no one" },
+      { it: "Guardò sotto il banco, e nessuno:", en: "He looked under the workbench, and no one:", note: "banco — workbench" },
+      { it: "guardò dentro un armadio che stava sempre chiuso, e nessuno;", en: "he looked inside a cupboard that was always kept shut, and no one;", note: "armadio — cupboard, wardrobe | stava sempre chiuso — was always (kept) closed" },
+      { it: "guardò nel corbello dei trucioli e della segatura, e nessuno;", en: "he looked in the basket of wood shavings and sawdust, and no one;", note: "corbello — basket (Tuscan word) | trucioli — wood shavings | segatura — sawdust" },
+      { it: "aprì l'uscio di bottega per dare un'occhiata anche sulla strada, e nessuno.", en: "he opened the shop door to take a look out in the street as well, and no one.", note: "uscio — door (literary or Tuscan for porta) | dare un'occhiata — to take a look" },
+      { it: "O dunque?...", en: "Well then?...", note: "o dunque — so what is it, then? (o is a Tuscan interjection)" },
+      { it: "— Ho capito; — disse allora ridendo e grattandosi la parrucca — si vede che quella vocina me la son figurata io. Rimettiamoci a lavorare. —", en: "“I get it,” he said then, laughing and scratching his wig, “it's obvious I imagined that little voice myself. Let's get back to work.”", note: "si vede che — it's clear that | me la son figurata io — I imagined it myself (son = sono; figurarsi = to imagine) | ridendo / grattandosi — gerunds: laughing / scratching himself | parrucca — wig | rimettersi a — to set about (something) again | rimettiamoci — imperative (noi) with the reflexive pronoun attached" },
+      { it: "E ripresa l'ascia in mano, tirò giù un solennissimo colpo sul pezzo di legno.", en: "And taking the axe in his hand again, he brought down a mighty blow on the piece of wood.", note: "ripresa l'ascia — having taken up the axe again (participle clause) | tirò giù — brought down | solennissimo — superlative of solenne; here: tremendous | colpo — blow" },
+      { it: "— Ohi! tu m'hai fatto male! — gridò rammaricandosi la solita vocina.", en: "“Ouch! You've hurt me!” cried the same little voice, complaining.", note: "ohi — ouch | m'hai fatto male — you hurt me (fare male a qualcuno) | rammaricandosi — lamenting, complaining | la solita vocina — the usual, same little voice" },
+      { it: "Questa volta maestro Ciliegia restò di stucco, cogli occhi fuori del capo per la paura,", en: "This time Master Cherry was struck dumb, with his eyes popping out of his head with fear,", note: "restare di stucco — to be dumbfounded (stucco = plaster) | cogli — old form of con gli | fuori del capo — out of his head" },
+      { it: "colla bocca spalancata e colla lingua giù ciondoloni fino al mento, come un mascherone da fontana.", en: "with his mouth wide open and his tongue dangling down to his chin, like a face carved on a fountain.", note: "colla — old form of con la | spalancata — wide open | ciondoloni — dangling | mento — chin | mascherone da fontana — the grotesque face carved on a fountain spout" },
+      { it: "Appena riebbe l'uso della parola, cominciò a dire tremando e balbettando dallo spavento:", en: "As soon as he got his speech back, he began to say, trembling and stammering with fright:", note: "riebbe — passato remoto of riavere: got back | l'uso della parola — the power of speech | balbettare — to stammer | spavento — fright" },
+      { it: "— Ma di dove sarà uscita questa vocina che ha detto ohi?...", en: "“But where can this little voice that said ouch have come from?...", note: "sarà uscita — future of probability: can have, must have come out" },
+      { it: "Eppure qui non c'è anima viva.", en: "And yet there isn't a living soul here.", note: "eppure — and yet | anima viva — living soul" },
+      { it: "Che sia per caso questo pezzo di legno che abbia imparato a piangere e a lamentarsi come un bambino?", en: "Could it be, by any chance, this piece of wood that has learnt to cry and moan like a child?", note: "che sia … che abbia imparato — present subjunctive: doubt in a question | per caso — by chance | lamentarsi — to complain, to moan" },
+      { it: "Io non lo posso credere.", en: "I can't believe it.", note: "non lo posso credere — same as non posso crederlo; the pronoun can go before the modal verb" },
+      { it: "Questo legno eccolo qui; è un pezzo di legno da caminetto, come tutti gli altri, e a buttarlo sul fuoco, c'è da far bollire una pentola di fagioli....", en: "This wood, here it is; it's a piece of fireplace wood like all the others, and if you throw it on the fire, there's enough to boil a pot of beans....", note: "eccolo — here it is (ecco + lo) | a buttarlo — by throwing it, if one throws it | c'è da far bollire — there's enough (heat) to boil | pentola — cooking pot | fagioli — beans" },
+      { it: "O dunque?", en: "So then?", note: "o dunque — well then? what now?" },
+      { it: "Che ci sia nascosto dentro qualcuno?", en: "Could someone be hidden inside it?", note: "che ci sia nascosto — subjunctive of doubt: could there be hidden | nascosto — hidden" },
+      { it: "Se c'è nascosto qualcuno, tanto peggio per lui.", en: "If someone is hidden in there, so much the worse for him.", note: "tanto peggio — so much the worse" },
+      { it: "Ora l'accomodo io! —", en: "Now I'll fix him!”", note: "accomodare — here: to deal with, to sort out (a threat: I'll fix him) | io — emphatic: I will" },
+      { it: "E così dicendo, agguantò con tutt'e due le mani quel povero pezzo di legno, e si pose a sbatacchiarlo senza carità contro le pareti della stanza.", en: "And saying this, he seized that poor piece of wood with both hands and began to bang it about, without mercy, against the walls of the room.", note: "agguantare — to grab hold of | tutt'e due — both (tutte e due) | si pose a — began to | sbatacchiare — to bang about, to knock around | senza carità — without mercy | pareti — walls (of a room)" },
+      { it: "Poi si messe in ascolto, per sentire se c'era qualche vocina che si lamentasse.", en: "Then he listened carefully, to hear whether there was some little voice complaining.", note: "si messe — old or Tuscan form of si mise, passato remoto of mettersi | mettersi in ascolto — to listen out, to prick up one's ears | si lamentasse — imperfect subjunctive: that might be complaining" },
+      { it: "Aspettò due minuti, e nulla; cinque minuti, e nulla; dieci minuti, e nulla!", en: "He waited two minutes, and nothing; five minutes, and nothing; ten minutes, and nothing!", note: "nulla — nothing (same as niente)" },
+      { it: "— Ho capito — disse allora sforzandosi di ridere e arruffandosi la parrucca — si vede che quella vocina che ha detto ohi, me la son figurata io! Rimettiamoci a lavorare. —", en: "“I get it,” he said then, forcing himself to laugh and ruffling his wig, “it's obvious I imagined that little voice that said ouch myself! Let's get back to work.”", note: "sforzarsi di — to force oneself to | arruffarsi — to ruffle, to mess up (one's own hair or wig) | rimettiamoci a lavorare — same phrase as before: let's get back to work" },
+      { it: "E perchè gli era entrato addosso una gran paura, si provò a canterellare per farsi un po' di coraggio.", en: "And because a great fear had come over him, he tried humming to give himself a bit of courage.", note: "gli era entrato addosso — had taken hold of him (entrare addosso: to come over someone) | gran — short form of grande before a noun | si provò a — tried to | canterellare — to hum, to sing under one's breath | farsi coraggio — to pluck up courage" },
+      { it: "Intanto, posata da una parte l'ascia, prese in mano la pialla, per piallare e tirare a pulimento il pezzo di legno;", en: "Meanwhile, having put the axe to one side, he picked up the plane, to plane the piece of wood and smooth it to a polish;", note: "intanto — meanwhile | posata l'ascia — having set the axe down | da una parte — to one side | pialla / piallare — plane (the tool) / to plane | tirare a pulimento — to smooth to a polish (old expression)" },
+      { it: "ma nel mentre che lo piallava in su e in giù, sentì la solita vocina che gli disse ridendo:", en: "but while he was planing it up and down, he heard the same little voice, which said to him laughing:", note: "nel mentre che — while | in su e in giù — up and down" },
+      { it: "— Smetti! tu mi fai il pizzicorino sul corpo! —", en: "“Stop! You're tickling my body!”", note: "smetti — imperative (tu) of smettere: stop | pizzicorino — a little tickle or itch (diminutive of pizzicore) | sul corpo — on my body" },
+      { it: "Questa volta il povero maestro Ciliegia cadde giù come fulminato.", en: "This time poor Master Cherry fell down as if struck by lightning.", note: "cadde — passato remoto of cadere | come fulminato — as if thunderstruck" },
+      { it: "Quando riaprì gli occhi, si trovò seduto per terra.", en: "When he opened his eyes again, he found himself sitting on the floor.", note: "riaprì — passato remoto of riaprire | trovarsi — to find oneself | per terra — on the ground, on the floor" },
+      { it: "Il suo viso pareva trasfigurito,", en: "His face seemed transformed,", note: "pareva — seemed (parere) | trasfigurito — as printed; today trasfigurato: changed, altered" },
+      { it: "e perfino la punta del naso, di paonazza come era quasi sempre, gli era diventata turchina dalla gran paura.", en: "and even the tip of his nose, from the purple-red it almost always was, had turned blue with great fear.", note: "perfino — even | di paonazza come era quasi sempre — from purplish red, as it nearly always was | turchina — blue (turquoise-blue) | gli era diventata — had become (diventare takes essere)" },
+    ]
   }
 ];
 
@@ -1368,6 +1444,7 @@ function renderFavCard(item, i) {
   const prons = pronCache[sectionId];
   const pron = prons ? prons[origIdx] : null;
   const pronHTML = isFlipped && pron ? `<div class="card-pron">🔊 ${pron}</div>` : '';
+  const noteBlock = isFlipped ? noteHTML(sectionId, p) : '';
   const favKey = getFavKey(sectionId, p.it);
   return `
     <div class="card ${isFlipped ? 'flipped' : ''}" onclick="flipFavCard(${i})">
@@ -1379,6 +1456,7 @@ function renderFavCard(item, i) {
       <div class="card-italian">${p.it}</div>
       <div class="card-english">${isFlipped ? p.en : ''}</div>
       ${pronHTML}
+      ${noteBlock}
       <button class="card-speak"
         data-speak="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="speakPhrase(this.dataset.speak, this, event)"
@@ -1415,6 +1493,13 @@ function flipFavCard(i) {
   card.querySelector('.card-flip-hint').textContent = isFlipped ? '↩ back' : 'tap to reveal';
   card.querySelector('.card-english').textContent = isFlipped ? p.en : '';
 
+  const existingNote = card.querySelector('.card-wordnotes');
+  if (existingNote) existingNote.remove();
+  if (isFlipped) {
+    const nh = noteHTML(sectionId, p);
+    if (nh) card.querySelector('.card-speak').insertAdjacentHTML('beforebegin', nh);
+  }
+
   const existingPron = card.querySelector('.card-pron');
   if (existingPron) existingPron.remove();
   if (isFlipped) {
@@ -1430,9 +1515,21 @@ function flipFavCard(i) {
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 
+function noteHTML(sectionId, p) {
+  const sec = sections.find(s => s.id === sectionId);
+  if (!sec || !sec.showNotes || !p.note) return '';
+  const items = p.note.split(' | ').map(e => {
+    const i = e.indexOf(' — ');
+    return i > -1
+      ? `<div><b>${e.slice(0, i)}</b> ${e.slice(i + 3)}</div>`
+      : `<div>${e}</div>`;
+  }).join('');
+  return `<div class="card-wordnotes">${items}</div>`;
+}
+
 function getAllPhrases() {
   const all = [];
-  sections.filter(s => s.id !== 'foodbank').forEach(s => s.phrases.forEach(p => all.push(p)));
+  sections.filter(s => s.id !== 'foodbank' && !s.noQuiz).forEach(s => s.phrases.forEach(p => all.push(p)));
   return all;
 }
 
@@ -1948,7 +2045,7 @@ function renderSection() {
       <div class="section-header">
         <span class="section-icon">${sec.icon}</span>
         <span class="section-title">${sec.title}</span>
-        <span class="section-count">${visible} / ${total} phrases</span>
+        <span class="section-count">${visible} / ${total} ${sec.unit || 'phrases'}</span>
       </div>
 
       <div class="search-bar">
@@ -1961,7 +2058,7 @@ function renderSection() {
         >
       </div>
 
-      <div class="phrase-grid" id="phraseGrid">
+      <div class="phrase-grid${sec.reading ? ' reading' : ''}" id="phraseGrid">
         ${phrases.length ? phrases.map((p, i) => renderCard(p, i)).join('') :
           '<div class="no-results">No phrases match your search.</div>'}
       </div>
@@ -1982,6 +2079,7 @@ function renderCard(p, i) {
   const prons = pronCache[currentSection];
   const pron = prons ? prons[i] : null;
   const pronHTML = isFlipped && pron ? `<div class="card-pron">🔊 ${pron}</div>` : '';
+  const noteBlock = isFlipped ? noteHTML(currentSection, p) : '';
   const favKey = getFavKey(currentSection, p.it);
   const isStarred = favourites.has(favKey);
   return `
@@ -1994,6 +2092,7 @@ function renderCard(p, i) {
       <div class="card-italian">${p.it}</div>
       <div class="card-english">${isFlipped ? p.en : ''}</div>
       ${pronHTML}
+      ${noteBlock}
       <button class="card-speak"
         data-speak="${p.it.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"
         onclick="speakPhrase(this.dataset.speak, this, event)"
@@ -2027,6 +2126,14 @@ function flipCard(i) {
       card.className = `card ${isFlipped ? 'flipped' : ''}`;
       card.querySelector('.card-flip-hint').textContent = isFlipped ? '↩ back' : 'tap to reveal';
       card.querySelector('.card-english').textContent = isFlipped ? p.en : '';
+
+      // Word notes (reading sections only)
+      const existingNote = card.querySelector('.card-wordnotes');
+      if (existingNote) existingNote.remove();
+      if (isFlipped) {
+        const nh = noteHTML(currentSection, p);
+        if (nh) card.querySelector('.card-speak').insertAdjacentHTML('beforebegin', nh);
+      }
 
       // Pronunciation
       const existingPron = card.querySelector('.card-pron, .card-pron-loading');
