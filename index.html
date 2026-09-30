@@ -646,6 +646,17 @@
     letter-spacing: 0.02em;
   }
   .card-wordnotes b { color: var(--cream); font-weight: 400; }
+
+  /* TWO-DROPDOWN NAV */
+  .nav-bar { display: flex; max-width: 1100px; margin: 0 auto; }
+  .nav-bar .nav-toggle { flex: 1; min-width: 0; max-width: none; margin: 0; padding: 0.7rem 1rem; border-bottom: 2px solid transparent; }
+  .nav-bar .nav-toggle + .nav-toggle { border-left: 1px solid var(--sand); }
+  .nav-bar .nav-toggle.active { border-bottom-color: var(--terracotta); }
+  .nav-text { display: flex; flex-direction: column; min-width: 0; gap: 0.15rem; }
+  .nav-group { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); }
+  .nav-sub { font-size: 0.58rem; letter-spacing: 0.08em; color: var(--stone); text-transform: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nav-bar .nav-current { min-width: 0; }
+  .nav-bar .nav-arrow { margin-left: 0.4rem; }
 </style>
 </head>
 <body>
@@ -658,12 +669,21 @@
 </header>
 
 <nav>
-  <div class="nav-toggle" onclick="toggleNav()" id="navToggle">
-    <span class="nav-current" id="navCurrent">
-      <span class="nav-current-icon" id="navCurrentIcon">⭐</span>
-      <span id="navCurrentLabel">Favourites</span>
-    </span>
-    <span class="nav-arrow" id="navArrow">▾</span>
+  <div class="nav-bar">
+    <div class="nav-toggle" id="navToggle-phrasebook" onclick="toggleNav('phrasebook')">
+      <span class="nav-current">
+        <span class="nav-current-icon">🗣️</span>
+        <span class="nav-text"><span class="nav-group">Phrasebook</span><span class="nav-sub" id="navSub-phrasebook">Favourites</span></span>
+      </span>
+      <span class="nav-arrow" id="navArrow-phrasebook">▾</span>
+    </div>
+    <div class="nav-toggle" id="navToggle-book" onclick="toggleNav('book')">
+      <span class="nav-current">
+        <span class="nav-current-icon">📖</span>
+        <span class="nav-text"><span class="nav-group">Book</span><span class="nav-sub" id="navSub-book">Pinocchio</span></span>
+      </span>
+      <span class="nav-arrow" id="navArrow-book">▾</span>
+    </div>
   </div>
   <div class="nav-dropdown" id="navDropdown"></div>
 </nav>
@@ -1244,12 +1264,13 @@ const sections = [
   {
     id: "pinocchio",
     icon: "📖",
+    group: "book",
     title: "Pinocchio · Capitolo I",
     unit: "lines",
     reading: true,
     showNotes: true,
     noQuiz: true,
-    tip: "Collodi's original 1883 Italian, much harder than the rest of the frasario. This is the first part of chapter one, up to the moment Master Cherry's nose turns blue. Read a line, guess, then tap for the English and word notes. Star any line you want to keep.",
+    tip: "Collodi's original 1883 Italian, much harder than the rest of the frasario. Read a line, guess, then tap for the English and word notes. Star any line you want to keep.",
     phrases: [
       { it: "Come andò che Maestro Ciliegia, falegname trovò un pezzo di legno che piangeva e rideva come un bambino.", en: "How it came about that Master Cherry, a carpenter, found a piece of wood that cried and laughed like a child.", note: "come andò che — how it came about that (a traditional chapter-title formula) | andò — passato remoto of andare | piangeva e rideva — imperfect: was crying and laughing" },
       { it: "— C'era una volta....", en: "“Once upon a time there was....”", note: "c'era una volta — once upon a time, the classic fairy-tale opening" },
@@ -1301,6 +1322,184 @@ const sections = [
       { it: "Quando riaprì gli occhi, si trovò seduto per terra.", en: "When he opened his eyes again, he found himself sitting on the floor.", note: "riaprì — passato remoto of riaprire | trovarsi — to find oneself | per terra — on the ground, on the floor" },
       { it: "Il suo viso pareva trasfigurito,", en: "His face seemed transformed,", note: "pareva — seemed (parere) | trasfigurito — as printed; today trasfigurato: changed, altered" },
       { it: "e perfino la punta del naso, di paonazza come era quasi sempre, gli era diventata turchina dalla gran paura.", en: "and even the tip of his nose, from the purple-red it almost always was, had turned blue with great fear.", note: "perfino — even | di paonazza come era quasi sempre — from purplish red, as it nearly always was | turchina — blue (turquoise-blue) | gli era diventata — had become (diventare takes essere)" },
+    ]
+  },
+  {
+    id: "pinocchio2",
+    icon: "📖",
+    group: "book",
+    title: "Pinocchio · Capitolo II",
+    unit: "lines",
+    reading: true,
+    showNotes: true,
+    noQuiz: true,
+    tip: "Chapter two: Geppetto arrives, the two old friends fight over a wig, and the piece of wood goes home with him. Notice the voi form they use with each other until the fight starts, then the switch to tu.",
+    phrases: [
+      { it: "Maestro Ciliegia regala il pezzo di legno al suo amico Geppetto, il quale lo prende per fabbricarsi un burattino maraviglioso, che sappia ballare, tirar di scherma e fare i salti mortali.", en: "Master Cherry gives the piece of wood as a present to his friend Geppetto, who takes it to make himself a marvellous puppet, one that can dance, fence and do somersaults.", note: "regalare — to give as a present | fabbricarsi — to make for oneself | maraviglioso — old spelling of meraviglioso | che sappia — subjunctive: one that can | tirar di scherma — to fence (tirare di scherma) | salti mortali — somersaults, flips" },
+      { it: "In quel punto fu bussato alla porta.", en: "At that moment there was a knock at the door.", note: "in quel punto — at that moment | fu bussato — impersonal passive: a knock was made, someone knocked | bussare — to knock" },
+      { it: "— Passate pure, — disse il falegname, senza aver la forza di rizzarsi in piedi.", en: "“Come in,” said the carpenter, without having the strength to get up onto his feet.", note: "passate pure — do come in (voi imperative; pure makes it a friendly permission) | rizzarsi in piedi — to get up onto one's feet | senza aver la forza — without having the strength" },
+      { it: "Allora entrò in bottega un vecchietto tutto arzillo, il quale aveva nome Geppetto;", en: "Then a sprightly little old man came into the shop, whose name was Geppetto;", note: "vecchietto — little old man (-etto is affectionate) | arzillo — spry, lively (said of old people) | il quale aveva nome — who was called" },
+      { it: "ma i ragazzi del vicinato, quando lo volevano far montare su tutte le furie, lo chiamavano col soprannome di Polendina,", en: "but the boys of the neighbourhood, when they wanted to make him fly into a rage, called him by the nickname Polendina,", note: "vicinato — neighbourhood | far montare su tutte le furie — to make someone furious | soprannome — nickname | col — old contraction of con il" },
+      { it: "a motivo della sua parrucca gialla, che somigliava moltissimo alla polendina di granturco.", en: "because of his yellow wig, which looked very much like cornmeal polenta.", note: "a motivo di — because of | somigliare a — to resemble | polendina — polenta, cornmeal porridge | granturco — maize, corn (old Tuscan word for mais)" },
+      { it: "Geppetto era bizzosissimo.", en: "Geppetto was extremely touchy.", note: "bizzoso — quick-tempered, irritable | -issimo — superlative ending: very, extremely" },
+      { it: "Guai a chiamarlo Polendina!", en: "Woe betide anyone who called him Polendina!", note: "guai a — woe to (anyone who) | chiamarlo — to call him" },
+      { it: "Diventava subito una bestia, e non c'era più verso di tenerlo.", en: "He would turn into a beast at once, and there was no holding him any more.", note: "diventare una bestia — to fly into a rage | non c'era più verso di — there was no way any more to | tenerlo — to restrain him" },
+      { it: "— Buon giorno, mastr'Antonio, — disse Geppetto. — Che cosa fate costì per terra?", en: "“Good day, Mastro Antonio,” said Geppetto. “What are you doing there on the floor?”", note: "fate — you do (voi form, the polite form used with one person in 1883) | costì — there, near you (Tuscan) | per terra — on the floor" },
+      { it: "— Insegno l'abbaco alle formicole.", en: "“I'm teaching arithmetic to the ants.”", note: "abbaco — elementary arithmetic (from abacus) | formicole — ants (today formiche)" },
+      { it: "— Buon pro vi faccia.", en: "“Much good may it do you.”", note: "buon pro vi faccia — may it do you good (set phrase) | pro — benefit, good" },
+      { it: "— Chi vi ha portato da me, compar Geppetto?", en: "“What brings you to me, friend Geppetto?”", note: "chi vi ha portato — who has brought you | compar — friend, pal (short for compare, a familiar Tuscan address)" },
+      { it: "— Le gambe.", en: "“My legs.”", note: "le gambe — a joking answer: my legs carried me" },
+      { it: "Sappiate, mastr'Antonio, che son venuto da voi, per chiedervi un favore.", en: "Know, Mastro Antonio, that I have come to you to ask you a favour.", note: "sappiate — imperative (voi) of sapere: know, be aware | son venuto — sono venuto | chiedervi — to ask you" },
+      { it: "— Eccomi qui, pronto a servirvi, — replicò il falegname rizzandosi su i ginocchi.", en: "“Here I am, ready to serve you,” replied the carpenter, raising himself up onto his knees.", note: "eccomi — here I am (ecco + mi) | pronto a — ready to | replicò — replied | rizzandosi su i ginocchi — raising himself onto his knees (today sulle ginocchia)" },
+      { it: "— Stamani m'è piovuta nel cervello un'idea.", en: "“This morning an idea dropped into my head.”", note: "stamani — this morning (today stamattina) | m'è piovuta — mi è piovuta: rained down on me, i.e. occurred to me | cervello — brain" },
+      { it: "— Sentiamola.", en: "“Let's hear it.”", note: "sentiamola — let's hear it (sentire + la, the idea)" },
+      { it: "— Ho pensato di fabbricarmi da me un bel burattino di legno: ma un burattino maraviglioso, che sappia ballare, tirar di scherma e fare i salti mortali.", en: "“I've thought of making myself a fine wooden puppet: but a marvellous puppet, one that can dance, fence and do somersaults.", note: "fabbricarmi — to make for myself | da me — by myself | burattino — puppet, marionette | che sappia — one that can (subjunctive)" },
+      { it: "Con questo burattino voglio girare il mondo, per buscarmi un tozzo di pane e un bicchier di vino:", en: "With this puppet I want to travel the world, to earn myself a crust of bread and a glass of wine:", note: "girare il mondo — to travel around the world | buscarsi — to earn, to scrape together (colloquial) | tozzo di pane — a crust, a hunk of bread | bicchier — bicchiere without the final -e" },
+      { it: "che ve ne pare?", en: "what do you think of it?”", note: "che ve ne pare — what do you think about it? (parere = to seem)" },
+      { it: "— Bravo Polendina! — gridò la solita vocina, che non si capiva di dove uscisse.", en: "“Bravo, Polendina!” shouted the same little voice, which you couldn't tell where it was coming from.", note: "bravo — well done (here mocking) | la solita vocina — the same little voice as before | non si capiva — it wasn't clear | di dove uscisse — where it came from (imperfect subjunctive, indirect question)" },
+      { it: "A sentirsi chiamar Polendina, compar Geppetto diventò rosso come un peperone dalla bizza,", en: "On hearing himself called Polendina, friend Geppetto turned as red as a pepper with rage,", note: "a sentirsi chiamar — on hearing himself called (a + infinitive: on, upon) | peperone — (bell) pepper | bizza — fit of temper" },
+      { it: "e voltandosi verso il falegname, gli disse imbestialito:", en: "and turning towards the carpenter, said to him, furious:", note: "voltarsi — to turn round | imbestialito — enraged, turned into a beast" },
+      { it: "— Perchè mi offendete?", en: "“Why are you insulting me?”", note: "perchè — old spelling of perché | offendete — you insult (voi form)" },
+      { it: "— Chi vi offende?", en: "“Who is insulting you?”", note: "vi — you (voi, object pronoun)" },
+      { it: "— Mi avete detto Polendina!", en: "“You called me Polendina!”", note: "mi avete detto Polendina — you called me Polendina (dire + a name)" },
+      { it: "— Non sono stato io.", en: "“It wasn't me.”", note: "non sono stato io — it wasn't me (essere in the passato prossimo)" },
+      { it: "— Sta' un po' a vedere che sarò stato io!", en: "“Oh, so now it'll turn out it was me!”", note: "sta' un po' a vedere che — just you wait and see: it'll turn out that (sarcastic) | sarò stato — future perfect used for a guess: it must have been" },
+      { it: "Io dico che siete stato voi.", en: "I say it was you.”", note: "siete stato voi — it was you (voi)" },
+      { it: "— No! — Sì! — No! — Sì! —", en: "“No!” “Yes!” “No!” “Yes!”", note: "sì — yes (with an accent, unlike si)" },
+      { it: "E riscaldandosi sempre più, vennero dalle parole ai fatti,", en: "And getting more and more heated, they went from words to deeds,", note: "riscaldarsi — to get worked up (also: to warm up) | sempre più — more and more | venire dalle parole ai fatti — to come to blows" },
+      { it: "e acciuffatisi fra di loro, si graffiarono, si morsero e si sbertucciarono.", en: "and having seized each other by the hair, they scratched, bit and knocked each other about.", note: "acciuffarsi — to grab each other by the hair (ciuffo = tuft) | acciuffatisi — having grabbed each other (participle + attached pronoun) | si morsero — passato remoto of mordersi | sbertucciarsi — to jeer at or rough each other up" },
+      { it: "Finito il combattimento, mastr'Antonio si trovò fra le mani la parrucca gialla di Geppetto,", en: "When the fight was over, Mastro Antonio found Geppetto's yellow wig in his hands,", note: "finito il combattimento — the fight being over (participle clause) | si trovò fra le mani — found in his hands | combattimento — fight, battle" },
+      { it: "e Geppetto si accòrse di avere in bocca la parrucca brizzolata del falegname.", en: "and Geppetto realised he had the carpenter's grizzled wig in his mouth.", note: "accorgersi di — to notice, to realise | si accòrse — passato remoto; the accent marks the stress | brizzolata — grizzled, flecked with grey" },
+      { it: "— Rendimi la mia parrucca! — gridò mastr'Antonio.", en: "“Give me back my wig!” shouted Mastro Antonio.", note: "rendimi — imperative (tu) of rendere + mi: give back to me | tu — after the fight they switch from voi to tu" },
+      { it: "— E tu rendimi la mia, e rifacciamo la pace. —", en: "“And you give me back mine, and let's make peace again.”", note: "la mia — mine | rifacciamo la pace — let's make peace again (rifare)" },
+      { it: "I due vecchietti, dopo aver ripreso ognuno di loro la propria parrucca,", en: "The two little old men, after each had taken back his own wig,", note: "dopo aver ripreso — after having taken back | ognuno di loro — each of them | propria — own" },
+      { it: "si strinsero la mano e giurarono di rimanere buoni amici per tutta la vita.", en: "shook hands and swore to remain good friends for the rest of their lives.", note: "si strinsero la mano — shook hands (passato remoto of stringersi) | giurare di — to swear to | per tutta la vita — for life" },
+      { it: "— Dunque, compar Geppetto, — disse il falegname in segno di pace fatta — qual è il piacere che volete da me?", en: "“So, friend Geppetto,” said the carpenter, as a sign that peace was made, “what is the favour you want from me?”", note: "dunque — so, well then | in segno di — as a sign of | pace fatta — peace made | qual è il piacere — what is the favour (a polite way to ask what someone wants)" },
+      { it: "— Vorrei un po' di legno per fabbricare il mio burattino; me lo date? —", en: "“I'd like a bit of wood to make my puppet; will you give it to me?”", note: "vorrei — conditional of volere: I would like | un po' di — a little | me lo date — you give it to me (me + lo, voi form of dare)" },
+      { it: "Mastr'Antonio, tutto contento, andò subito a prendere sul banco quel pezzo del legno che era stato cagione a lui di tante paure.", en: "Mastro Antonio, delighted, went at once to fetch from the bench that piece of wood that had been the cause of so many frights to him.", note: "tutto contento — completely happy | andò a prendere — went to get | cagione — cause (old form of causa) | era stato cagione a lui di — had caused him (literary)" },
+      { it: "Ma quando fu lì per consegnarlo all'amico, il pezzo di legno dette uno scossone,", en: "But just as he was about to hand it to his friend, the piece of wood gave a jolt,", note: "fu lì per — was about to | consegnare — to hand over | dette — old form of diede, passato remoto of dare | scossone — a violent jolt" },
+      { it: "e sgusciandogli violentemente dalle mani, andò a battere con forza negli stinchi impresciuttiti del povero Geppetto.", en: "and slipping violently out of his hands, went and struck hard against poor Geppetto's withered shins.", note: "sgusciare — to slip out | sgusciandogli — slipping out from him (gerund + gli) | andò a battere — ended up hitting | stinchi — shins | impresciuttiti — dried up like ham (prosciutto): withered" },
+      { it: "— Ah! gli è con questo bel garbo, mastr'Antonio, che voi regalate la vostra roba?", en: "“Ah! So this is the fine manner in which you give away your things, Mastro Antonio?", note: "gli è con questo bel garbo che — it is with this fine grace that (ironic; gli è is a Tuscan expletive) | garbo — manner, courtesy | roba — stuff, belongings" },
+      { it: "M'avete quasi azzoppito!...", en: "You've nearly crippled me!”", note: "m'avete — mi avete | azzoppito — as printed; the usual word is azzoppato: made lame | quasi — almost" },
+      { it: "— Vi giuro che non sono stato io!", en: "“I swear it wasn't me!”", note: "giurare — to swear" },
+      { it: "— Allora sarò stato io!...", en: "“Then it must have been me!...”", note: "sarò stato — future perfect of supposition, used sarcastically" },
+      { it: "— La colpa è tutta di questo legno....", en: "“It's all this wood's fault....”", note: "colpa — fault, blame | tutta di — entirely (the fault) of" },
+      { it: "— Lo so che è del legno: ma siete voi che me l'avete tirato nelle gambe!", en: "“I know it's the wood's: but it's you who threw it at my legs!”", note: "lo so che è del legno — I know it's the wood's (doing) | siete voi che — it is you who (cleft sentence) | me l'avete tirato — you threw it at me (me + lo) | tirare — to throw, to hurl" },
+      { it: "— Io non ve l'ho tirato!", en: "“I didn't throw it at you!”", note: "ve l'ho tirato — I threw it at you (ve = a voi, l' = lo)" },
+      { it: "— Bugiardo!", en: "“Liar!”", note: "bugiardo — liar" },
+      { it: "— Geppetto, non mi offendete: se no vi chiamo Polendina!...", en: "“Geppetto, don't insult me: or else I'll call you Polendina!...”", note: "non mi offendete — negative imperative, voi form: don't offend me | se no — otherwise, or else" },
+      { it: "— Asino! — Polendina! — Somaro! — Polendina! — Brutto scimmiotto! — Polendina! —", en: "“Donkey!” “Polendina!” “Dunce!” “Polendina!” “Ugly monkey!” “Polendina!”", note: "asino — donkey, fool | somaro — pack donkey, dunce | brutto scimmiotto — ugly little monkey (-otto)" },
+      { it: "A sentirsi chiamar Polendina per la terza volta, Geppetto perse il lume degli occhi,", en: "On hearing himself called Polendina for the third time, Geppetto lost his head with rage (literally, lost the light of his eyes),", note: "per la terza volta — for the third time | perdere il lume degli occhi — to lose all self-control in anger" },
+      { it: "si avventò sul falegname e lì se ne dettero un sacco e una sporta.", en: "flung himself at the carpenter, and there they gave each other a thorough beating.", note: "avventarsi su — to pounce on | darsene un sacco e una sporta — to give each other a good thrashing (idiom: a sack and a basket of blows) | dettero — old form of diedero, passato remoto of dare" },
+      { it: "A battaglia finita, mastr'Antonio si trovò due graffi di più sul naso, e quell'altro due bottoni di meno al giubbetto.", en: "When the battle was over, Mastro Antonio found himself with two more scratches on his nose, and the other with two fewer buttons on his jacket.", note: "a battaglia finita — with the battle over | graffio — scratch | quell'altro — the other one (Geppetto) | di più / di meno — more / fewer | giubbetto — little jacket, waistcoat" },
+      { it: "Pareggiati in questo modo i loro conti, si strinsero la mano e giurarono di rimanere buoni amici per tutta la vita.", en: "Their accounts settled in this way, they shook hands and swore to remain good friends for life.", note: "pareggiare i conti — to settle accounts, to even the score | in questo modo — in this way" },
+      { it: "Intanto Geppetto prese con sè il suo bravo pezzo di legno, e ringraziato mastr'Antonio, se ne tornò zoppicando a casa.", en: "Meanwhile Geppetto took his fine piece of wood with him and, having thanked Mastro Antonio, went back home limping.", note: "intanto — meanwhile | con sè — old spelling of con sé | bravo — here: good, fine | ringraziato — having thanked | se ne tornò — went back (tornarsene) | zoppicando — limping" },
+    ]
+  },
+  {
+    id: "pinocchio3",
+    icon: "📖",
+    group: "book",
+    title: "Pinocchio · Capitolo III",
+    unit: "lines",
+    reading: true,
+    showNotes: true,
+    noQuiz: true,
+    tip: "Chapter three: Geppetto carves the puppet and names him Pinocchio, and the puppet runs away at once. Lots of body vocabulary, plus old Tuscan forms like messe and dètte.",
+    phrases: [
+      { it: "Geppetto, tornato a casa, comincia subito a fabbricarsi il burattino e gli mette il nome di Pinocchio.", en: "Geppetto, having returned home, begins at once to make himself the puppet and gives it the name Pinocchio.", note: "tornato a casa — having returned home (participle clause) | fabbricarsi — to make for oneself | mettere il nome — to give a name, to name" },
+      { it: "Prime monellerie del burattino.", en: "The puppet's first pranks.", note: "monelleria — a naughty trick, mischief (monello = rascal)" },
+      { it: "La casa di Geppetto era una stanzina terrena, che pigliava luce da un sottoscala.", en: "Geppetto's house was a little ground-floor room, which took its light from the space under a staircase.", note: "stanzina — little room | terrena — on the ground floor | pigliare — to take (Tuscan for prendere) | sottoscala — the space under a staircase" },
+      { it: "La mobilia non poteva esser più semplice:", en: "The furniture couldn't have been plainer:", note: "mobilia — furniture | non poteva esser più semplice — couldn't be simpler" },
+      { it: "una seggiola cattiva, un letto poco buono e un tavolino tutto rovinato.", en: "a poor chair, a not very good bed and a table that was completely ruined.", note: "seggiola — chair (today sedia) | cattiva — here: poor, bad | rovinato — ruined, battered" },
+      { it: "Nella parete di fondo si vedeva un caminetto col fuoco acceso;", en: "On the back wall you could see a fireplace with a lit fire;", note: "parete di fondo — back wall | si vedeva — one could see | col — old contraction of con il | acceso — lit, switched on" },
+      { it: "ma il fuoco era dipinto, e accanto al fuoco c'era dipinta una pentola che bolliva allegramente e mandava fuori una nuvola di fumo, che pareva fumo davvero.", en: "but the fire was painted, and next to the fire there was a painted pot that boiled merrily and sent out a cloud of smoke, which looked like real smoke.", note: "dipinto — painted | accanto a — next to | bollire — to boil | mandare fuori — to send out | davvero — really, truly" },
+      { it: "Appena entrato in casa, Geppetto prese subito gli arnesi e si pose a intagliare e a fabbricare il suo burattino.", en: "As soon as he was inside the house, Geppetto took up his tools at once and set about carving and making his puppet.", note: "appena entrato — as soon as he had entered | arnesi — tools | si pose a — set about, began to | intagliare — to carve" },
+      { it: "— Che nome gli metterò? — disse fra sè e sè.", en: "“What name shall I give him?” he said to himself.", note: "metterò — future of mettere; here: I will give (a name) | fra sè e sè — to himself (today fra sé e sé)" },
+      { it: "— Lo voglio chiamar Pinocchio.", en: "“I want to call him Pinocchio.", note: "lo voglio chiamar — voglio chiamarlo: the pronoun goes before the modal verb | chiamar — chiamare without the final -e" },
+      { it: "Questo nome gli porterà fortuna.", en: "This name will bring him luck.", note: "portare fortuna — to bring luck | porterà — future of portare" },
+      { it: "Ho conosciuto una famiglia intera di Pinocchi: Pinocchio il padre, Pinocchia la madre e Pinocchi i ragazzi, e tutti se la passavano bene.", en: "I once knew a whole family of Pinocchi: Pinocchio the father, Pinocchia the mother and Pinocchi the children, and they were all doing well.", note: "Pinocchi — plural of pinocchio (a pine nut) | i ragazzi — the kids, the children | se la passavano bene — they were getting along well (passarsela)" },
+      { it: "Il più ricco di loro chiedeva l'elemosina.", en: "The richest of them begged for alms.”", note: "il più ricco — the richest | chiedere l'elemosina — to beg for alms" },
+      { it: "Quando ebbe trovato il nome al suo burattino, allora cominciò a lavorare a buono,", en: "When he had found the name for his puppet, he began to work in earnest,", note: "ebbe trovato — trapassato remoto: had found | lavorare a buono — to work in earnest (old expression)" },
+      { it: "e gli fece subito i capelli, poi la fronte, poi gli occhi.", en: "and at once made its hair, then its forehead, then its eyes.", note: "capelli — hair | fronte — forehead | gli fece — made for him, made on it" },
+      { it: "Fatti gli occhi, figuratevi la sua maraviglia quando si accòrse che gli occhi si movevano e che lo guardavano fisso fisso.", en: "Once the eyes were made, imagine his amazement when he noticed that the eyes were moving and staring fixedly at him.", note: "fatti gli occhi — the eyes having been made | figuratevi — imagine (voi imperative) | maraviglia — old spelling of meraviglia: amazement | si accòrse — noticed (accorgersi) | fisso fisso — fixedly; the repetition adds emphasis" },
+      { it: "Geppetto vedendosi guardare da quei due occhi di legno, se n'ebbe quasi per male,", en: "Seeing himself stared at by those two wooden eyes, Geppetto almost took offence,", note: "vedendosi guardare — seeing himself looked at | avere per male — to take offence | quasi — almost" },
+      { it: "e disse con accento risentito:", en: "and said in a resentful tone:", note: "accento — tone of voice | risentito — resentful" },
+      { it: "— Occhiacci di legno, perchè mi guardate? —", en: "“Wooden eyes, you nasty things, why are you looking at me?”", note: "occhiacci — nasty eyes (-accio makes a word ugly or contemptuous) | guardate — you (plural) look | perchè — old spelling of perché" },
+      { it: "Nessuno rispose.", en: "No one answered.", note: "rispose — passato remoto of rispondere" },
+      { it: "Allora, dopo gli occhi gli fece il naso;", en: "Then, after the eyes, he made its nose;", note: "dopo gli occhi — after the eyes" },
+      { it: "ma il naso, appena fatto, cominciò a crescere:", en: "but the nose, as soon as it was made, began to grow:", note: "appena fatto — as soon as made | crescere — to grow" },
+      { it: "e cresci, cresci, cresci, diventò in pochi minuti un nasone che non finiva mai.", en: "and it grew and grew and grew, and in a few minutes became an enormous nose that never ended.", note: "cresci, cresci — repetition shows continuing action: it kept on growing | nasone — big nose (-one = augmentative) | che non finiva mai — that never ended" },
+      { it: "Il povero Geppetto si affaticava a ritagliarlo;", en: "Poor Geppetto wore himself out trimming it;", note: "affaticarsi — to tire oneself out | ritagliare — to trim, to cut back" },
+      { it: "ma più lo ritagliava e lo scorciva, e più quel naso impertinente diventava lungo.", en: "but the more he trimmed it and shortened it, the longer that cheeky nose grew.", note: "più… e più — the more… the more | scorciare — to shorten | impertinente — cheeky, insolent" },
+      { it: "Dopo il naso gli fece la bocca.", en: "After the nose he made its mouth.", note: "bocca — mouth" },
+      { it: "La bocca non era ancora finita di fare, che cominciò subito a ridere e a canzonarlo.", en: "The mouth wasn't even finished being made when it began at once to laugh and mock him.", note: "non era ancora finita di fare, che — hadn't yet been finished when | canzonare — to mock, to tease" },
+      { it: "— Smetti di ridere! — disse Geppetto impermalito; ma fu come dire al muro.", en: "“Stop laughing!” said Geppetto, offended; but it was like talking to a wall.", note: "smetti di — stop (doing something) | impermalito — offended, piqued | fu come dire al muro — it was like talking to a wall" },
+      { it: "— Smetti di ridere, ti ripeto! — urlò con voce minacciosa.", en: "“Stop laughing, I tell you!” he shouted in a threatening voice.", note: "ti ripeto — I repeat to you, I tell you again | urlò — shouted | minacciosa — threatening" },
+      { it: "Allora la bocca smesse di ridere, ma cacciò fuori tutta la lingua.", en: "Then the mouth stopped laughing, but stuck out its whole tongue.", note: "smesse — Tuscan passato remoto of smettere (today smise) | cacciar fuori — to stick out, to throw out | lingua — tongue" },
+      { it: "Geppetto, per non guastare i fatti suoi, finse di non avvedersene, e continuò a lavorare.", en: "Geppetto, so as not to spoil his own business, pretended not to notice, and carried on working.", note: "guastare i fatti suoi — to spoil his own affairs | fingere di — to pretend to | avvedersene — to notice it (avvedersi di + ne)" },
+      { it: "Dopo la bocca gli fece il mento, poi il collo, poi le spalle, lo stomaco, le braccia e le mani.", en: "After the mouth he made its chin, then its neck, then its shoulders, stomach, arms and hands.", note: "mento — chin | collo — neck | spalle — shoulders | braccia — arms (plural of braccio)" },
+      { it: "Appena finite le mani, Geppetto sentì portarsi via la parrucca dal capo.", en: "As soon as the hands were finished, Geppetto felt his wig being carried off his head.", note: "appena finite — as soon as finished | sentì portarsi via — felt (it) being taken away | capo — head" },
+      { it: "Si voltò in su, e che cosa vide?", en: "He turned his eyes upwards, and what did he see?", note: "voltarsi in su — to look up" },
+      { it: "Vide la sua parrucca gialla in mano del burattino.", en: "He saw his yellow wig in the puppet's hand.", note: "in mano del burattino — in the puppet's hand (today in mano al burattino)" },
+      { it: "— Pinocchio!... rendimi subito la mia parrucca! —", en: "“Pinocchio!... give me back my wig at once!”", note: "rendimi — imperative (tu) of rendere + mi: give back to me | subito — at once" },
+      { it: "E Pinocchio, invece di rendergli la parrucca, se la messe in capo per sè,", en: "And Pinocchio, instead of giving him back the wig, put it on his own head,", note: "invece di — instead of | rendergli — to give back to him | se la messe in capo — put it on his head (messe = old form of mise) | per sè — for himself (today per sé)" },
+      { it: "rimanendovi sotto mezzo affogato.", en: "almost smothered underneath it.", note: "rimanendovi — remaining in it (gerund + vi) | mezzo affogato — half drowned, half smothered" },
+      { it: "A quel garbo insolente e derisorio, Geppetto si fece tristo e melanconico, come non era stato mai in vita sua:", en: "At this insolent and mocking behaviour, Geppetto became sad and melancholy, as he had never been in his life:", note: "garbo — manner, way of behaving | derisorio — mocking | farsi tristo — to become sad | melanconico — old spelling of malinconico | in vita sua — in his whole life" },
+      { it: "e voltandosi verso Pinocchio, gli disse:", en: "and turning towards Pinocchio, he said to him:", note: "voltandosi — turning round (gerund)" },
+      { it: "— Birba d'un figliuolo!", en: "“You rascal of a son!", note: "birba — rascal, scamp | d'un figliuolo — of a son: what a rascal of a son | figliuolo — son (today figlio)" },
+      { it: "Non sei ancora finito di fare, e già cominci a mancar di rispetto a tuo padre!", en: "You aren't even finished being made, and already you begin to show disrespect to your father!", note: "non sei ancora finito di fare — you're not yet finished being made | mancar di rispetto a — to show disrespect to" },
+      { it: "Male, ragazzo mio, male! —", en: "That's bad, my boy, bad!”", note: "male — badly; here: that is bad" },
+      { it: "E si rasciugò una lacrima.", en: "And he wiped away a tear.", note: "rasciugarsi — old form of asciugarsi: to dry oneself | lacrima — tear" },
+      { it: "Restavano sempre da fare le gambe e i piedi.", en: "There were still the legs and the feet to make.", note: "restavano da fare — remained to be made | sempre — still" },
+      { it: "Quando Geppetto ebbe finito di fargli i piedi, sentì arrivarsi un calcio sulla punta del naso.", en: "When Geppetto had finished making its feet, he felt a kick land on the tip of his nose.", note: "ebbe finito — trapassato remoto: had finished | sentì arrivarsi — felt (something) arrive at him | calcio — kick" },
+      { it: "— Me lo merito — disse allora fra sè.", en: "“I deserve it,” he said then to himself.", note: "meritarsi — to deserve | me lo merito — I deserve it" },
+      { it: "— Dovevo pensarci prima! Ormai è tardi! —", en: "“I should have thought of it sooner! It's too late now!”", note: "dovevo pensarci — I should have thought about it | ormai — by now, now | è tardi — it's late" },
+      { it: "Poi prese il burattino sotto le braccia e lo posò in terra, sul pavimento della stanza, per farlo camminare.", en: "Then he took the puppet under its arms and set it on the ground, on the floor of the room, to make it walk.", note: "sotto le braccia — under the arms | posare — to set down | pavimento — floor | farlo camminare — to make it walk" },
+      { it: "Pinocchio aveva le gambe aggranchite e non sapeva muoversi,", en: "Pinocchio's legs were stiff and he didn't know how to move,", note: "aggranchite — numb, stiff, cramped | non sapeva muoversi — didn't know how to move" },
+      { it: "e Geppetto lo conduceva per la mano per insegnargli a mettere un passo dietro l'altro.", en: "and Geppetto led him by the hand to teach him to put one step after the other.", note: "condurre per la mano — to lead by the hand | insegnare a — to teach to | un passo dietro l'altro — one step after another" },
+      { it: "Quando le gambe gli si furono sgranchite, Pinocchio cominciò a camminare da sè e a correre per la stanza;", en: "When his legs had loosened up, Pinocchio began to walk by himself and to run around the room;", note: "gli si furono sgranchite — had loosened up for him (trapassato remoto; sgranchirsi = to stretch out stiff limbs) | da sè — by himself (today da sé) | per la stanza — around the room" },
+      { it: "finchè, infilata la porta di casa, saltò nella strada e si dètte a scappare.", en: "until, having shot through the front door, he leapt into the street and started to run away.", note: "finchè — old spelling of finché: until | infilata la porta — having gone through the door (infilare = to slip through) | si dètte a — started to (old form of si diede a) | scappare — to run away" },
+      { it: "E il povero Geppetto a corrergli dietro senza poterlo raggiungere,", en: "And poor Geppetto ran after him without being able to catch him,", note: "a corrergli dietro — (went) running after him (a + infinitive narrates the action) | raggiungere — to catch up with" },
+      { it: "perchè quel birichino di Pinocchio andava a salti come una lepre,", en: "because that little rascal Pinocchio was leaping like a hare,", note: "birichino — little rascal | andare a salti — to move in leaps | lepre — hare" },
+      { it: "e battendo i suoi piedi di legno sul lastrico della strada, faceva un fracasso come venti paia di zoccoli da contadini.", en: "and, pounding his wooden feet on the paving of the street, he made a din like twenty pairs of peasants' clogs.", note: "battendo — pounding, beating (battere) | lastrico — paved surface of a road | fracasso — racket, din | paia — pairs (plural of paio) | zoccoli — clogs" },
+      { it: "— Piglialo! piglialo! — urlava Geppetto;", en: "“Catch him! Catch him!” Geppetto kept shouting;", note: "piglialo — imperative (tu) of pigliare + lo: grab him | urlava — imperfect: kept shouting" },
+      { it: "ma la gente che era per la via, vedendo questo burattino di legno, che correva come un barbero,", en: "but the people who were in the street, seeing this wooden puppet running like a racehorse,", note: "per la via — in the street | barbero — a Barbary horse, a racehorse | correre come un barbero — to run like the wind" },
+      { it: "si fermava incantata a guardarlo, e rideva, rideva e rideva, da non poterselo figurare.", en: "stopped, spellbound, to watch him, and laughed and laughed and laughed, more than you could imagine.", note: "incantata — spellbound | si fermava a guardarlo — stopped to look at him | da non poterselo figurare — beyond what you could imagine" },
+      { it: "Alla fine, e per buona fortuna, capitò un carabiniere", en: "In the end, and by good luck, a carabiniere happened along", note: "alla fine — in the end | per buona fortuna — luckily | capitò — happened to turn up | carabiniere — Italian military police officer" },
+      { it: "il quale, sentendo tutto quello schiamazzo, e credendo si trattasse di un puledro che avesse levata la mano al padrone,", en: "who, hearing all that uproar, and thinking it was a colt that had turned on its master,", note: "schiamazzo — uproar, din | credendo si trattasse di — thinking it was a case of (subjunctive after credere) | puledro — colt | levar la mano al padrone — to rebel against its master (levare la mano = to raise a hand against)" },
+      { it: "si piantò coraggiosamente a gambe larghe in mezzo alla strada,", en: "planted himself bravely, legs apart, in the middle of the street,", note: "piantarsi — to plant oneself | coraggiosamente — bravely | a gambe larghe — legs wide apart | in mezzo a — in the middle of" },
+      { it: "con l'animo risoluto di fermarlo e di impedire il caso di maggiori disgrazie.", en: "determined to stop it and to prevent any chance of greater misfortunes.", note: "con l'animo risoluto di — resolved to | impedire — to prevent | disgrazie — misfortunes, accidents" },
+      { it: "Ma Pinocchio, quando si avvide da lontano del carabiniere, che barricava tutta la strada,", en: "But Pinocchio, when he noticed from far off the carabiniere, who was blocking the whole street,", note: "si avvide di — noticed (avvedersi, passato remoto) | da lontano — from a distance | barricare — to block off (barricade)" },
+      { it: "s'ingegnò di passargli, per sorpresa, framezzo alle gambe, e invece fece fiasco.", en: "tried to slip between his legs by surprise, and instead failed miserably.", note: "ingegnarsi di — to try, to contrive to | framezzo alle gambe — between the legs | per sorpresa — by surprise | fare fiasco — to fail badly, to make a fiasco" },
+      { it: "Il carabiniere, senza punto smuoversi lo acciuffò pulitamente per il naso", en: "The carabiniere, without budging at all, neatly seized him by the nose", note: "senza punto smuoversi — without moving at all | acciuffare — to seize | pulitamente — neatly, cleanly" },
+      { it: "(era un nasone spropositato, che pareva fatto apposta per essere acchiappato dai carabinieri)", en: "(it was a hugely oversized nose, which looked made on purpose to be caught by carabinieri)", note: "spropositato — enormous, out of all proportion | fatto apposta — made on purpose | acchiappare — to catch, to grab" },
+      { it: "e lo riconsegnò nelle proprie mani di Geppetto;", en: "and handed him back into Geppetto's own hands;", note: "riconsegnare — to hand back | nelle proprie mani di — into the very hands of" },
+      { it: "il quale, a titolo di correzione, voleva dargli subito una buona tiratina d'orecchi.", en: "who, by way of punishment, wanted to give him at once a good ear-pulling.", note: "a titolo di — by way of | correzione — punishment, correction | tiratina d'orecchi — a tug by the ears, a telling-off" },
+      { it: "Ma figuratevi come rimase, quando nel cercargli gli orecchi non gli riuscì di poterli trovare:", en: "But imagine how he felt when, looking for its ears, he could not manage to find them:", note: "nel cercargli gli orecchi — in looking for its ears | non gli riuscì di — he did not succeed in | orecchi — ears (today usually orecchie)" },
+      { it: "e sapete perchè? perchè, nella furia di scolpirlo, si era dimenticato di farglieli.", en: "and do you know why? Because, in his hurry to carve him, he had forgotten to make them.", note: "sapete — you (plural) know | nella furia di — in the rush of | scolpire — to carve, to sculpt | si era dimenticato di — had forgotten to | farglieli — to make them for him (gli + li = glieli)" },
+      { it: "Allora lo prese per la collottola, e, mentre lo riconduceva indietro,", en: "Then he took him by the scruff of the neck and, as he led him back,", note: "collottola — scruff of the neck | riconduceva — was leading back (ricondurre)" },
+      { it: "gli disse tentennando minacciosamente il capo:", en: "said to him, shaking his head threateningly:", note: "tentennare il capo — to shake one's head | minacciosamente — threateningly" },
+      { it: "— Andiamo subito a casa.", en: "“Let's go home at once.", note: "andiamo — let's go (noi imperative)" },
+      { it: "Quando saremo a casa, non dubitare che faremo i nostri conti! —", en: "When we're home, don't doubt that we'll settle our accounts!”", note: "saremo — future of essere: we will be | non dubitare che — don't doubt that (negative imperative, tu) | fare i conti — to settle accounts, to have it out" },
+      { it: "Pinocchio, a questa antifona, si buttò per terra, e non volle più camminare.", en: "Pinocchio, at this kind of talk, threw himself on the ground and would walk no more.", note: "a questa antifona — at this kind of talk, at this warning | si buttò per terra — threw himself on the ground | non volle più — refused to any longer (passato remoto of volere)" },
+      { it: "Intanto i curiosi e i bighelloni principiavano a fermarsi lì dintorno e a far capannello.", en: "Meanwhile the curious and the idlers began to stop around them and to gather in a little crowd.", note: "bighelloni — idlers, loafers | principiare a — to begin to | lì dintorno — around there | far capannello — to gather in a small knot of people" },
+      { it: "Chi ne diceva una, chi un'altra.", en: "Some said one thing, some another.", note: "chi… chi… — some… others…" },
+      { it: "— Povero burattino! — dicevano alcuni — ha ragione a non voler tornare a casa!", en: "“Poor puppet!” some said, “he's right not to want to go home!", note: "dicevano alcuni — some were saying | ha ragione a — is right to" },
+      { it: "Chi lo sa come lo picchierebbe quell'omaccio di Geppetto!... —", en: "Who knows how he'd beat him, that brute Geppetto!...”", note: "chi lo sa — who knows | picchierebbe — conditional: would beat | omaccio — big nasty man (-accio)" },
+      { it: "E gli altri soggiungevano malignamente:", en: "And the others added spitefully:", note: "soggiungere — to add | malignamente — maliciously, spitefully" },
+      { it: "— Quel Geppetto pare un galantuomo! ma è un vero tiranno, coi ragazzi!", en: "“That Geppetto seems a gentleman! but he's a real tyrant with children!", note: "pare — seems (parere) | galantuomo — honest, decent man | coi ragazzi — with children (con i ragazzi)" },
+      { it: "Se gli lasciano quel povero burattino fra le mani, è capacissimo di farlo a pezzi! —", en: "If they leave that poor puppet in his hands, he's quite capable of tearing it to pieces!”", note: "capacissimo — very capable (-issimo) | fare a pezzi — to tear to pieces" },
+      { it: "Insomma, tanto dissero e tanto fecero, che il carabiniere rimesse in libertà Pinocchio,", en: "In short, they said and did so much that the carabiniere set Pinocchio free,", note: "insomma — in short | tanto dissero e tanto fecero che — they said and did so much that | rimesse in libertà — set free (rimesse = old form of rimise)" },
+      { it: "e condusse in prigione quel pover'uomo di Geppetto.", en: "and took that poor man Geppetto to prison.", note: "condusse — passato remoto of condurre | pover'uomo — poor man" },
+      { it: "Il quale non avendo parole lì per lì per difendersi, piangeva come un vitellino,", en: "Geppetto, having no words on the spot to defend himself, cried like a little calf,", note: "non avendo parole — having no words | lì per lì — there and then, on the spot | vitellino — little calf" },
+      { it: "e nell'avviarsi verso il carcere, balbettava singhiozzando:", en: "and as he set off towards the jail, stammered, sobbing:", note: "avviarsi — to set off | carcere — jail, prison | singhiozzare — to sob" },
+      { it: "— Sciagurato figliuolo!", en: "“Wretched boy!", note: "sciagurato — wretched, unfortunate" },
+      { it: "E pensare che ho penato tanto a farlo un burattino per bene!", en: "And to think I went to such trouble to make him a decent puppet!", note: "e pensare che — and to think that | penare — to suffer, to toil | per bene — decent, respectable" },
+      { it: "Ma mi sta il dovere!", en: "But it serves me right!", note: "mi sta il dovere — it serves me right (like mi sta bene)" },
+      { it: "Dovevo pensarci prima!... —", en: "I should have thought of it sooner!...”", note: "dovevo pensarci — I should have thought of it" },
+      { it: "Quello che accadde dopo, è una storia così strana, da non potersi quasi credere,", en: "What happened next is a story so strange that it can hardly be believed,", note: "accadde — happened (passato remoto of accadere) | così strana da non potersi credere — so strange as to be unbelievable | quasi — almost" },
+      { it: "e ve la racconterò in quest'altri capitoli.", en: "and I will tell it to you in these next chapters.", note: "ve la racconterò — I will tell it to you (ve = a voi, la = the story) | quest'altri — these other (old form of questi altri)" },
     ]
   }
 ];
@@ -1962,41 +2161,46 @@ function loadPronunciations(sectionId) {
   }
 }
 
-let navOpen = false;
+let openGroup = null;
 
-function toggleNav() {
-  navOpen = !navOpen;
-  document.getElementById('navDropdown').classList.toggle('open', navOpen);
-  document.getElementById('navArrow').classList.toggle('open', navOpen);
+function groupOf(id) {
+  const sec = sections.find(x => x.id === id);
+  return sec && sec.group === 'book' ? 'book' : 'phrasebook';
+}
+
+function toggleNav(g) {
+  openGroup = openGroup === g ? null : g;
+  buildNav();
 }
 
 function closeNav() {
-  navOpen = false;
-  document.getElementById('navDropdown').classList.remove('open');
-  document.getElementById('navArrow').classList.remove('open');
+  openGroup = null;
 }
 
 function buildNav() {
-  const allSections = [
-    { id: 'favourites', icon: '⭐', title: `Favourites${favourites.size ? ' (' + favourites.size + ')' : ''}` },
-    ...sections,
-    { id: 'quiz', icon: '✏️', title: 'Quiz' }
+  const all = [
+    { id: 'favourites', icon: '⭐', title: `Favourites${favourites.size ? ' (' + favourites.size + ')' : ''}`, group: 'phrasebook' },
+    ...sections.map(x => ({ id: x.id, icon: x.icon, title: x.title, group: x.group === 'book' ? 'book' : 'phrasebook' })),
+    { id: 'quiz', icon: '✏️', title: 'Quiz', group: 'phrasebook' }
   ];
-
-  // Update the current section display
-  const current = allSections.find(s => s.id === currentSection) || allSections[0];
-  document.getElementById('navCurrentIcon').textContent = current.icon;
-  document.getElementById('navCurrentLabel').textContent = current.title;
-
-  // Build dropdown items
-  document.getElementById('navDropdown').innerHTML = allSections.map(s => `
-    <button class="nav-item ${s.id === currentSection ? 'active' : ''}"
-            onclick="switchSection('${s.id}')">
-      <span class="nav-item-icon">${s.icon}</span>
-      <span class="nav-item-label">${s.title}</span>
-      ${s.id === currentSection ? '<span class="nav-item-tick">✓</span>' : ''}
+  const cur = all.find(x => x.id === currentSection) || all[0];
+  ['phrasebook', 'book'].forEach(g => {
+    const active = cur.group === g;
+    document.getElementById('navToggle-' + g).classList.toggle('active', active);
+    document.getElementById('navToggle-' + g).classList.toggle('open', openGroup === g);
+    document.getElementById('navArrow-' + g).classList.toggle('open', openGroup === g);
+    document.getElementById('navSub-' + g).textContent = active ? cur.title : (g === 'book' ? 'Pinocchio' : 'Sections');
+  });
+  const dd = document.getElementById('navDropdown');
+  dd.classList.toggle('open', !!openGroup);
+  dd.innerHTML = openGroup ? all.filter(x => x.group === openGroup).map(x => `
+    <button class="nav-item ${x.id === currentSection ? 'active' : ''}"
+            onclick="switchSection('${x.id}')">
+      <span class="nav-item-icon">${x.icon}</span>
+      <span class="nav-item-label">${x.title}</span>
+      ${x.id === currentSection ? '<span class="nav-item-tick">✓</span>' : ''}
     </button>
-  `).join('');
+  `).join('') : '';
 }
 
 function switchSection(id) {
