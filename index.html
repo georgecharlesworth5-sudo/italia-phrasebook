@@ -1786,10 +1786,26 @@ function speakPhrase(text, btn, event) {
   window.speechSynthesis.cancel();
   document.querySelectorAll('.card-speak.speaking').forEach(b => b.classList.remove('speaking'));
 
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'it-IT';
+  const spSec = sections.find(s => s.phrases.some(p => p.it === text));
+  const spLang = (spSec && spSec.lang) || 'it-IT';
+  const allVoices = window.speechSynthesis.getVoices();
+  const findVoice = code => allVoices.find(v => v.lang.replace('_', '-').toLowerCase().startsWith(code)) || null;
+  let spVoice = spLang === 'it-IT' ? (italianVoice || findVoice('it')) : findVoice(spLang.slice(0, 2).toLowerCase());
+  let spText = text;
+  let usedLang = spLang;
+  if (spLang !== 'it-IT' && !spVoice) {
+    // No Icelandic voice on this device: read the phonetic guide with an English voice instead
+    const idx = spSec.phrases.findIndex(p => p.it === text);
+    const guide = pronData[spSec.id] && pronData[spSec.id][idx];
+    if (!guide) return;
+    spText = guide.replace(/\s*\/\s*/g, '. ').toLowerCase();
+    usedLang = 'en-GB';
+    spVoice = findVoice('en-gb') || findVoice('en');
+  }
+  const utterance = new SpeechSynthesisUtterance(spText);
+  utterance.lang = usedLang;
   utterance.rate = 0.85;
-  if (italianVoice) utterance.voice = italianVoice;
+  if (spVoice) utterance.voice = spVoice;
 
   btn.classList.add('speaking');
   utterance.onend = () => btn.classList.remove('speaking');
