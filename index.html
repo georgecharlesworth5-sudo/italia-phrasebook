@@ -657,6 +657,7 @@
   .nav-sub { font-size: 0.58rem; letter-spacing: 0.08em; color: var(--stone); text-transform: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .nav-bar .nav-current { min-width: 0; }
   .nav-bar .nav-arrow { margin-left: 0.4rem; }
+  @media (max-width: 520px) { .nav-bar .nav-toggle { padding: 0.6rem 0.55rem; } .nav-bar .nav-current-icon { display: none; } .nav-bar .nav-arrow { margin-left: 0.2rem; } .nav-group { letter-spacing: 0.08em; font-size: 0.62rem; } }
   .nav-book { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0.85rem 1.25rem; border: none; border-bottom: 1px solid var(--terracotta-pale); background: var(--cream); font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); cursor: pointer; }
   .nav-book + .nav-item { padding-left: 2.25rem; }
   .nav-item + .nav-item { padding-left: 2.25rem; }
@@ -685,6 +686,13 @@
         <span class="nav-text"><span class="nav-group">Book</span><span class="nav-sub" id="navSub-book">Chapters</span></span>
       </span>
       <span class="nav-arrow" id="navArrow-book">▾</span>
+    </div>
+    <div class="nav-toggle" id="navToggle-icelandic" onclick="toggleNav('icelandic')">
+      <span class="nav-current">
+        <span class="nav-current-icon">🌋</span>
+        <span class="nav-text"><span class="nav-group">Icelandic</span><span class="nav-sub" id="navSub-icelandic">Íslenska</span></span>
+      </span>
+      <span class="nav-arrow" id="navArrow-icelandic">▾</span>
     </div>
   </div>
   <div class="nav-dropdown" id="navDropdown"></div>
@@ -1574,6 +1582,162 @@ const sections = [
       { it: "Il viso del ragazzino si è illuminato: \"È proprio quello che volevo!\"", en: "The little boy's face lit up: \"That's exactly what I wanted!\"", note: "viso — face | si è illuminato — lit up | proprio — exactly, just | volevo — I wanted (imperfetto)" },
       { it: "Così ho conosciuto il Piccolo Principe.", en: "That's how I met the Little Prince.", note: "così — that's how, in this way | ho conosciuto — I met (for the first time)" },
     ]
+  },
+  {
+    id: "is_basics",
+    icon: "👋",
+    group: "icelandic",
+    lang: "is-IS",
+    noQuiz: true,
+    title: "Basics",
+    tip: "Icelandic stress always falls on the first syllable, so say the start of every word firmly and let the rest trail off. Icelanders often skip 'please' and just say takk (thanks) afterwards.",
+    phrases: [
+      { it: "Halló / Hæ", en: "Hello / Hi", note: "Hæ is the casual one, used with everyone" },
+      { it: "Góðan daginn", en: "Good morning / Good day", note: "ð is the soft 'th' of 'this'" },
+      { it: "Gott kvöld", en: "Good evening", note: "" },
+      { it: "Góða nótt", en: "Good night", note: "" },
+      { it: "Bless / Bless bless", en: "Goodbye", note: "" },
+      { it: "Sjáumst", en: "See you (soon)", note: "Literally 'we'll see each other'" },
+      { it: "Takk / Takk fyrir", en: "Thanks / Thank you", note: "Said constantly. Use it freely" },
+      { it: "Takk kærlega", en: "Thank you very much", note: "" },
+      { it: "Ekkert mál", en: "No problem / You're welcome", note: "" },
+      { it: "Gjörðu svo vel", en: "Here you go / You're welcome", note: "Said when handing someone something" },
+      { it: "Já / Nei", en: "Yes / No", note: "" },
+      { it: "Fyrirgefðu", en: "Sorry / Excuse me", note: "Informal" },
+      { it: "Afsakið", en: "Excuse me (polite)", note: "Use with older people or strangers" },
+      { it: "Hvernig hefurðu það?", en: "How are you?", note: "" },
+      { it: "Bara gott, takk", en: "Just fine, thanks", note: "" },
+      { it: "Ég heiti George", en: "My name is George", note: "" },
+      { it: "Gaman að kynnast þér", en: "Nice to meet you", note: "" },
+      { it: "Ég skil ekki", en: "I don't understand", note: "" },
+      { it: "Talar þú ensku?", en: "Do you speak English?", note: "Nearly everyone does, but try first" },
+      { it: "Ég tala smá íslensku", en: "I speak a little Icelandic", note: "" },
+      { it: "Geturðu talað hægar?", en: "Can you speak more slowly?", note: "" },
+      { it: "Hvað þýðir þetta?", en: "What does this mean?", note: "" },
+    ]
+  },
+  {
+    id: "is_family",
+    icon: "👨‍👩‍👧",
+    group: "icelandic",
+    lang: "is-IS",
+    noQuiz: true,
+    title: "Visiting Family",
+    tip: "Icelanders are warm but understated. A handshake or hug, a coffee and a few words of Icelandic will go down very well. Notice how many words start with a hard first-syllable stress.",
+    phrases: [
+      { it: "Gaman að sjá þig", en: "Lovely to see you", note: "" },
+      { it: "Ég hlakka til að sjá þig", en: "I'm looking forward to seeing you", note: "The hl- is breathy, like a whispered l" },
+      { it: "Við erum í heimsókn", en: "We're visiting", note: "" },
+      { it: "Ég er frá Englandi", en: "I'm from England", note: "" },
+      { it: "Þetta er konan mín", en: "This is my wife", note: "" },
+      { it: "Þetta er sonur minn", en: "This is my son", note: "" },
+      { it: "Þetta er dóttir mín", en: "This is my daughter", note: "" },
+      { it: "Ég á tvö börn", en: "I have two children", note: "Börn is neuter plural, so 'two' is tvö" },
+      { it: "Amma / Afi", en: "Grandma / Grandpa", note: "" },
+      { it: "Mamma / Pabbi", en: "Mum / Dad", note: "" },
+      { it: "Frændi / Frænka", en: "Male relative (uncle, cousin) / Female relative (aunt, cousin)", note: "One word covers many relatives" },
+      { it: "Hvernig hefur fjölskyldan það?", en: "How is the family?", note: "" },
+      { it: "Takk fyrir gjöfina", en: "Thank you for the gift", note: "" },
+      { it: "Til hamingju með afmælið", en: "Happy birthday", note: "Literally 'congratulations with the birthday'" },
+      { it: "Skál!", en: "Cheers!", note: "" },
+      { it: "Verði þér að góðu", en: "Enjoy your meal", note: "" },
+      { it: "Þetta er mjög gott", en: "This is very good", note: "" },
+      { it: "Takk fyrir mig", en: "Thanks for having me (said after a meal)", note: "Literally 'thanks for me'. Said to the host at the end of a meal" },
+    ]
+  },
+  {
+    id: "is_food",
+    icon: "☕",
+    group: "icelandic",
+    lang: "is-IS",
+    noQuiz: true,
+    title: "Food & Drink",
+    tip: "Coffee is a big deal in Iceland, and the classic fast food is a hot dog. Ask for 'eina með öllu' and you get everything on it.",
+    phrases: [
+      { it: "Má ég fá kaffi?", en: "May I have a coffee?", note: "" },
+      { it: "Ég ætla að fá…", en: "I'll have…", note: "Useful for ordering anything" },
+      { it: "Vatn, takk", en: "Water, please", note: "" },
+      { it: "Mjólk", en: "Milk", note: "" },
+      { it: "Bjór", en: "Beer", note: "" },
+      { it: "Skyr", en: "Skyr (thick Icelandic dairy)", note: "" },
+      { it: "Fiskur", en: "Fish", note: "" },
+      { it: "Lambakjöt", en: "Lamb", note: "" },
+      { it: "Kleinur", en: "Twisted doughnuts", note: "A classic with coffee" },
+      { it: "Eina með öllu, takk", en: "One with everything, please (hot dog)", note: "ll sounds like 'tl'" },
+      { it: "Ég er svangur", en: "I'm hungry", note: "Women say svöng" },
+      { it: "Ég er þyrstur", en: "I'm thirsty", note: "Women say þyrst" },
+      { it: "Er þetta með hnetum?", en: "Does this contain nuts?", note: "" },
+      { it: "Hvað kostar þetta?", en: "How much is this?", note: "" },
+      { it: "Reikninginn, takk", en: "The bill, please", note: "" },
+    ]
+  },
+  {
+    id: "is_travel",
+    icon: "🚗",
+    group: "icelandic",
+    lang: "is-IS",
+    noQuiz: true,
+    title: "Getting Around",
+    tip: "Weather decides everything in Iceland, so it is also the standard small talk. Emergency number is 112.",
+    phrases: [
+      { it: "Hvar er salernið?", en: "Where is the toilet?", note: "" },
+      { it: "Til vinstri", en: "To the left", note: "" },
+      { it: "Til hægri", en: "To the right", note: "" },
+      { it: "Beint áfram", en: "Straight ahead", note: "" },
+      { it: "Ég er villtur", en: "I'm lost", note: "Women say villt" },
+      { it: "Hvað er klukkan?", en: "What time is it?", note: "" },
+      { it: "Hjálp!", en: "Help!", note: "" },
+      { it: "Ég þarf lækni", en: "I need a doctor", note: "" },
+      { it: "Hringdu í 112", en: "Call 112", note: "The emergency number" },
+      { it: "Það er kalt úti", en: "It's cold outside", note: "" },
+      { it: "Það er rok", en: "It's windy", note: "" },
+      { it: "Það er rigning", en: "It's raining", note: "" },
+      { it: "Það er fallegt veður", en: "The weather is lovely", note: "Say it with feeling, it is rare" },
+    ]
+  },
+  {
+    id: "is_numbers",
+    icon: "🔢",
+    group: "icelandic",
+    lang: "is-IS",
+    noQuiz: true,
+    title: "Numbers",
+    tip: "These are the masculine forms of 1 to 4, which change with gender. Good enough for prices, which are in krónur.",
+    phrases: [
+      { it: "einn", en: "one", note: "" },
+      { it: "tveir", en: "two", note: "" },
+      { it: "þrír", en: "three", note: "" },
+      { it: "fjórir", en: "four", note: "" },
+      { it: "fimm", en: "five", note: "" },
+      { it: "sex", en: "six", note: "" },
+      { it: "sjö", en: "seven", note: "" },
+      { it: "átta", en: "eight", note: "" },
+      { it: "níu", en: "nine", note: "" },
+      { it: "tíu", en: "ten", note: "" },
+      { it: "tuttugu", en: "twenty", note: "" },
+      { it: "hundrað", en: "one hundred", note: "" },
+      { it: "króna / krónur", en: "krona / kronur (currency)", note: "" },
+    ]
+  },
+  {
+    id: "is_sounds",
+    icon: "🔤",
+    group: "icelandic",
+    lang: "is-IS",
+    noQuiz: true,
+    title: "Sound Refresher",
+    tip: "A quick refresher on the letters that trip English speakers up. Each card gives a word and the sound to focus on.",
+    phrases: [
+      { it: "Það", en: "'that / it' (ð and þ)", note: "Þ is the th of 'thin'. Ð is the th of 'this'. Það has both" },
+      { it: "á", en: "ow, as in 'cow' (á means 'on')", note: "Also in 'já' (yes) and 'áfram'" },
+      { it: "Hæ", en: "æ sounds like 'eye'", note: "Also in 'hægri', 'læknir' and 'afmæli'" },
+      { it: "börn", en: "ö sounds like the 'u' in 'burn'", note: "Also in 'kvöld' and 'sjö'" },
+      { it: "einn", en: "ei and ey sound like 'ay' in 'say'", note: "Also in 'reikningur' and 'Reykjavík'" },
+      { it: "Hvað", en: "hv is pronounced 'kv'", note: "Also in 'hvar' and 'hvernig'" },
+      { it: "fjall", en: "ll sounds like 'tl'", note: "Mountain. Also in 'allt', 'fallegt' and 'öllu'" },
+      { it: "já", en: "j is a 'y' sound", note: "Also in 'sjö' (syur) and 'fjórir'" },
+      { it: "Reykjavík", en: "stress is always on the first syllable", note: "The rule for every Icelandic word" },
+    ]
   }
 ];
 
@@ -1891,6 +2055,12 @@ function buildNav() {
 // ── PRONUNCIATIONS (baked in) ─────────────────────────────────────────────────
 
 const pronData = {
+  is_basics: ["hah-LOH / HIGH", "GOH-than DIGH-in", "GOHT kvurld", "GOH-tha NOHTT", "BLESS", "SYOWMST", "TAHK / TAHK FIH-rir", "TAHK KYAIR-leh-ga", "EH-kert MAUL", "GYUR-thu svo VEL", "YOW / NAY", "FIH-rir-gev-thu", "AHF-sah-kith", "KVER-nik HEH-vur-thu thahth", "BAH-ra GOHT tahk", "yekh HAY-tih George", "GAH-man ahth KIN-ast thyer", "yekh SKIL EH-ki", "TAH-lar thoo EN-sku", "yekh TAH-la SMOW EES-len-sku", "GEH-tur-thu TAH-lath HIGH-gar", "kvahth THEE-thir THEH-ta"],
+  is_family: ["GAH-man ahth SYOW thikh", "yekh HLAH-ka til ahth SYOW thikh", "vith EH-rum ee HAYMS-ohkn", "yekh er frow EN-glan-di", "THEH-ta er KOH-nan MEEN", "THEH-ta er SOH-nur MINN", "THEH-ta er DOH-tir MEEN", "yekh OW tvur BURTN", "AHM-ma / AH-vi", "MAHM-ma / PAHP-pi", "FRIGHN-di / FRIGHN-ka", "KVER-nik HEH-vur FYUL-skil-dan thahth", "TAHK FIH-rir GYUR-vi-na", "til HAH-min-gyu meth AHF-migh-lith", "SKOWL", "VER-thi thyer ahth GOH-thu", "THEH-ta er MYURKH GOHT", "TAHK FIH-rir MIKH"],
+  is_food: ["MOW yekh FOW KAH-fi", "yekh IGH-tla ahth FOW", "VAHTN tahk", "MYOHLK", "BYOHR", "SKEER", "FIS-kur", "LAHM-ba-kyurt", "KLAY-nur", "AY-na meth UHT-lu tahk", "yekh er SVOWNG-ur", "yekh er THIR-stur", "er THEH-ta meth HNEH-tum", "kvahth KOS-tar THEH-ta", "RAYK-nin-gin tahk"],
+  is_travel: ["KVAHR er SAH-ler-nith", "til VIN-stri", "til HIGH-ri", "BAYNT OW-fram", "yekh er VIHL-tur", "kvahth er KLUH-kan", "HYOWLP", "yekh THARF LIGH-kni", "RING-thu ee HUN-drath ohk TOHLV", "thahth er KAHLT OO-ti", "thahth er ROHK", "thahth er RIK-ning", "thahth er FAHT-legt VEH-thur"],
+  is_numbers: ["EYTN", "TVAYR", "THREER", "FYOH-rir", "FIMM", "SEKS", "SYUR", "OW-ta", "NEE-yu", "TEE-yu", "TUH-tu-gu", "HUN-drath", "KROH-na / KROH-nur"],
+  is_sounds: ["thahth", "OW", "HIGH", "BURTN", "AYTN", "KVAHTH", "FYAHTL", "YOW", "RAYK-ya-veek"],
   essentials: [
     "bwon-JOR-no","bwona-SAY-ra","bwona-NOT-teh","CHOW","ar-ree-veh-DER-chee",
     "pair fa-VOR-eh / pair pya-CHEH-reh","GRAT-syeh / GRAT-syeh MIL-leh","PREH-go",
@@ -2239,7 +2409,7 @@ let openBook = null;
 
 function groupOf(id) {
   const sec = sections.find(x => x.id === id);
-  return sec && sec.group === 'book' ? 'book' : 'phrasebook';
+  return (sec && sec.group) || 'phrasebook';
 }
 
 function toggleNav(g) {
@@ -2255,16 +2425,16 @@ function closeNav() {
 function buildNav() {
   const all = [
     { id: 'favourites', icon: '⭐', title: `Favourites${favourites.size ? ' (' + favourites.size + ')' : ''}`, group: 'phrasebook' },
-    ...sections.map(x => ({ id: x.id, icon: x.icon, title: x.title, book: x.book, group: x.group === 'book' ? 'book' : 'phrasebook' })),
+    ...sections.map(x => ({ id: x.id, icon: x.icon, title: x.title, book: x.book, group: x.group || 'phrasebook' })),
     { id: 'quiz', icon: '✏️', title: 'Quiz', group: 'phrasebook' }
   ];
   const cur = all.find(x => x.id === currentSection) || all[0];
-  ['phrasebook', 'book'].forEach(g => {
+  ['phrasebook', 'book', 'icelandic'].forEach(g => {
     const active = cur.group === g;
     document.getElementById('navToggle-' + g).classList.toggle('active', active);
     document.getElementById('navToggle-' + g).classList.toggle('open', openGroup === g);
     document.getElementById('navArrow-' + g).classList.toggle('open', openGroup === g);
-    document.getElementById('navSub-' + g).textContent = active ? cur.title : (g === 'book' ? 'Chapters' : 'Sections');
+    document.getElementById('navSub-' + g).textContent = active ? cur.title : (g === 'book' ? 'Chapters' : g === 'icelandic' ? 'Íslenska' : 'Sections');
   });
   const dd = document.getElementById('navDropdown');
   dd.classList.toggle('open', !!openGroup);
