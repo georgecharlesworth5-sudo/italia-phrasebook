@@ -1810,47 +1810,84 @@ if (window.speechSynthesis) {
   } catch(e) {}
 }
 
+let _utt = null;      // keep a reference: some browsers drop speech if the utterance is garbage collected
+let _speakTimer = null;
+
+function showAudioMsg(msg) {
+  let t = document.getElementById('audioToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'audioToast';
+    t.style.cssText = 'position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);max-width:90vw;background:#222;color:#fff;padding:0.6rem 1rem;border-radius:6px;font:0.75rem DM Mono,monospace;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.3)';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._h);
+  t._h = setTimeout(() => { t.style.display = 'none'; }, 4000);
+}
+
 function speakPhrase(text, btn, event) {
   event.stopPropagation();
-  if (!window.speechSynthesis) return;
+  const synth = window.speechSynthesis;
+  if (!synth || typeof SpeechSynthesisUtterance === 'undefined') {
+    showAudioMsg('This browser has no speech support. Try Safari, Chrome or Edge.');
+    return;
+  }
 
-  // If already speaking this phrase, cancel it
-  if (btn.classList.contains('speaking')) {
-    window.speechSynthesis.cancel();
+  // Tap again while it is really speaking: stop
+  if (btn.classList.contains('speaking') && (synth.speaking || synth.pending)) {
+    synth.cancel();
     btn.classList.remove('speaking');
     return;
   }
 
-  // Cancel any other speech
-  window.speechSynthesis.cancel();
+  const wasBusy = synth.speaking || synth.pending;
+  clearTimeout(_speakTimer);
   document.querySelectorAll('.card-speak.speaking').forEach(b => b.classList.remove('speaking'));
+  if (wasBusy) synth.cancel();
 
   const spSec = sections.find(s => s.phrases.some(p => p.it === text));
   const spLang = (spSec && spSec.lang) || 'it-IT';
-  const allVoices = window.speechSynthesis.getVoices();
+  const allVoices = synth.getVoices();
   const findVoice = code => allVoices.find(v => v.lang.replace('_', '-').toLowerCase().startsWith(code)) || null;
-  let spVoice = spLang === 'it-IT' ? (italianVoice || findVoice('it')) : findVoice(spLang.slice(0, 2).toLowerCase());
+  let spVoice = spLang === 'it-IT' ? findVoice('it') : findVoice(spLang.slice(0, 2).toLowerCase());
   let spText = text;
   let usedLang = spLang;
   if (spLang !== 'it-IT' && !spVoice) {
     // No Icelandic voice on this device: read the phonetic guide with an English voice instead
     const idx = spSec.phrases.findIndex(p => p.it === text);
     const guide = pronData[spSec.id] && pronData[spSec.id][idx];
-    if (!guide) return;
+    if (!guide) { showAudioMsg('No Icelandic voice on this device.'); return; }
     spText = guide.replace(/\s*\/\s*/g, '. ').toLowerCase();
     usedLang = 'en-GB';
     spVoice = findVoice('en-gb') || findVoice('en');
   }
-  const utterance = new SpeechSynthesisUtterance(spText);
-  utterance.lang = usedLang;
-  utterance.rate = 0.85;
-  if (spVoice) utterance.voice = spVoice;
+
+  const u = new SpeechSynthesisUtterance(spText);
+  u.lang = usedLang;
+  u.rate = 0.85;
+  if (spVoice) u.voice = spVoice;
+  _utt = u;
+
+  const done = () => btn.classList.remove('speaking');
+  u.onend = done;
+  u.onerror = e => {
+    done();
+    if (e && e.error && e.error !== 'canceled' && e.error !== 'interrupted') {
+      showAudioMsg('Audio problem: ' + e.error + '. Check the volume and that the phone is not on silent.');
+    }
+  };
 
   btn.classList.add('speaking');
-  utterance.onend = () => btn.classList.remove('speaking');
-  utterance.onerror = () => btn.classList.remove('speaking');
+  // Safety net: never leave the button stuck if the browser never fires onend
+  setTimeout(done, 2000 + spText.length * 150);
 
-  window.speechSynthesis.speak(utterance);
+  // Cancel then speak straight away drops the phrase in some browsers, so wait a moment
+  _speakTimer = setTimeout(() => {
+    try { synth.resume(); } catch (e) {}
+    synth.speak(u);
+  }, wasBusy ? 120 : 0);
 }
 
 // ── FAVOURITES ────────────────────────────────────────────────────────────────
